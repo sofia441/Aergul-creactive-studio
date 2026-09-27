@@ -1,0 +1,2807 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="scrollbar-width:none;-ms-overflow-style:none;overflow-x:hidden;">
+<head>
+  <meta charset="UTF-8">
+  <title>Aergul Creative Studio </title>
+  <meta name="description" content="Custom vector & stencil designs crafted for decor, laser cutting, and layered artwork. Available on Shutterstock, Fiverr, Adobe Stock and more.">
+  <meta name="author" content="Aergul">
+  <meta property="og:title" content="Aergul Creative Studio">
+  <meta property="og:description" content="Custom vector & stencil designs crafted for decor, laser cutting, and layered artwork.">
+  <meta property="og:image" content="icons/profilepic 1.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="icons/logo top 2.png">
+  <link rel="preload" as="image" href="icons/profilepic 1.png" fetchpriority="high">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Lovers+Quarrel&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    @font-face { font-family: 'Geraldine'; src: url('fonts/GERALDINE.ttf') format('truetype'); }
+    @font-face { font-family: 'Mastrih'; src: url('fonts/Mastrih.otf') format('opentype'); }
+    @font-face { font-family: 'Rindeya'; src: url('fonts/Rindeya.ttf') format('truetype'); }
+    @font-face { font-family: 'Modernline'; src: url('fonts/modernline bold.otf') format('opentype'); }
+
+    :root {
+      --bg: #f5edd8;
+      --paper: #fdf8ee;
+      --ink: #3a2e24;
+      --ink-soft: rgba(58,46,36,0.6);
+      --accent1: #b5603a;
+      --accent2: #7a9e7e;
+      --accent3: #c9963a;
+      --dark: #1a1208;
+      --dark2: #2a1f14;
+      --tape: rgba(210,185,140,0.55);
+      --gold: #c9963a;
+      --gold-light: rgba(201,150,58,0.35);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; max-width: 100vw; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, serif;
+      overflow-x: hidden;
+      overflow-x: clip;
+      max-width: 100vw;
+      position: relative;
+    }
+
+    /* scrollbar — fully hidden everywhere */
+    html { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+    body { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    *::-webkit-scrollbar { width: 0 !important; height: 0 !important; display: none !important; }
+
+    /* ── scroll progress bar ── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: linear-gradient(to right, var(--accent1), var(--gold));
+      z-index: 9999;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* paper texture */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply; opacity: 0.5;
+    }
+
+    h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+    /* ══════════════════════════════
+       FEATURE: LOADING SCREEN
+    ══════════════════════════════ */
+    #loadingScreen {
+      position: fixed; inset: 0; z-index: 10000;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      transition: opacity 0.65s ease, visibility 0.65s ease;
+    }
+    #loadingScreen.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-core { position: relative; text-align: center; z-index: 1; }
+    .loader-logo {
+      height: 68px; width: auto; object-fit: contain;
+      margin: 0 auto;
+      opacity: 0;
+      animation: loaderMarkIn 0.8s ease 0.1s forwards;
+    }
+    .loader-line {
+      width: 40px; height: 1px; background: var(--gold);
+      margin: 0.9rem auto 0.7rem; opacity: 0;
+      animation: loaderLineIn 0.6s ease 0.45s forwards;
+    }
+    @keyframes loaderMarkIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes loaderLineIn { from { opacity: 0; width: 0; } to { opacity: 0.75; width: 40px; } }
+
+    /* three-dot loading indicator */
+    .loader-dots {
+      display: flex; align-items: center; justify-content: center;
+      gap: 7px;
+      opacity: 0;
+      animation: loaderMarkIn 0.6s ease 0.6s forwards;
+    }
+    .loader-dots span {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent1);
+      opacity: 0.35;
+      animation: dotPulse 1.1s ease-in-out infinite;
+    }
+    .loader-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes dotPulse {
+      0%, 80%, 100% { opacity: 0.3; transform: translateY(0) scale(0.85); }
+      40% { opacity: 1; transform: translateY(-3px) scale(1); }
+    }
+
+    .loader-sticker {
+      position: absolute; pointer-events: none; user-select: none;
+      opacity: 0; z-index: 0;
+      filter: sepia(1) saturate(3.2) hue-rotate(2deg) brightness(1.65) contrast(0.92);
+      transition: opacity 1.1s ease, transform 1.1s ease;
+      transform: translateY(6px) rotate(var(--rot, 0deg)) scale(var(--flip-x, 1), var(--flip-y, 1));
+    }
+    .loader-sticker img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .loader-sticker.show { opacity: 0.22; transform: translateY(0) rotate(var(--rot, 0deg)) scale(var(--flip-x, 1), var(--flip-y, 1)); }
+    @media (max-width: 768px) {
+      .loader-sticker { width: 168px !important; opacity: 0 !important; }
+      .loader-sticker.show { opacity: 0.16 !important; }
+      .loader-sticker[data-pos="tl"] { width: 230px !important; }
+    }
+
+    /* ══════════════════════════════
+       FEATURE: PAGE TRANSITION — clean fade
+    ══════════════════════════════ */
+    .page-fade {
+      position: fixed; inset: 0; z-index: 9998;
+      background: var(--bg);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .page-fade.visible { opacity: 1; pointer-events: all; }
+
+
+    /* ══════════════════════════════
+       FEATURE: CURSOR PETAL TRAIL
+    ══════════════════════════════ */
+    .cursor-petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9997;
+      width: 14px; height: 14px;
+      transform: translate(-50%, -50%);
+      animation: petalFade 0.9s ease-out forwards;
+    }
+    @keyframes petalFade {
+      0%   { opacity: 0.75; transform: translate(-50%,-50%) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translate(-50%, calc(-50% - 28px)) scale(0.3) rotate(120deg); }
+    }
+    @media (max-width: 768px) { .cursor-petal { display: none; } }
+    .deco-sticker {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+    .deco-sticker img {
+      width: 100%; height: 100%;
+      object-fit: contain; display: block;
+    }
+    /* on light sections — darken to match ink palette */
+    .deco-sticker.light {
+      opacity: 0.07;
+      filter: sepia(1) saturate(0.8) hue-rotate(340deg) brightness(0.4);
+    }
+    /* on dark sections — lighten to parchment tint */
+    .deco-sticker.dark {
+      opacity: 0.12;
+      filter: invert(1) sepia(1) saturate(0.5) hue-rotate(340deg) brightness(1.4);
+    }
+
+    @media (max-width: 768px) {
+      .deco-sticker {
+        width: 480px !important;
+        opacity: 0.16 !important;
+        filter: sepia(1) saturate(2.6) hue-rotate(12deg) brightness(1.55) contrast(0.9) !important;
+      }
+      /* Profile & Gallery sections — lighter, more faded stickers on mobile only */
+      #about .deco-sticker,
+      #gallery .deco-sticker {
+        opacity: 0.07 !important;
+        filter: sepia(1) saturate(1.3) hue-rotate(18deg) brightness(2.1) contrast(0.7) !important;
+      }
+    }
+
+    /* ── selection ── */
+    ::selection { background: rgba(201,150,58,0.25); color: var(--ink); }
+
+    /* ══════════════════════════════
+       TOPBAR
+    ══════════════════════════════ */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 2rem;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .topbar.solid {
+      background: rgba(245,237,216,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom-color: rgba(58,46,36,0.1);
+    }
+    .topbar-logo img {
+      height: 52px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      transition: opacity 0.4s ease;
+    }
+    .topbar-social { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .topbar-logo { min-width: 0; }
+    .topbar-cta-wrap { min-width: 0; }
+    .topbar-social a { color: rgba(245,237,216,0.8); transition: color 0.2s; }
+    .topbar-social a:hover { color: #fff; }
+    .topbar.solid .topbar-social a { color: var(--ink-soft); }
+    .topbar.solid .topbar-social a:hover { color: var(--ink); }
+    .topbar-cta {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      border: 1px solid rgba(245,237,216,0.55);
+      border-radius: 999px;
+      padding: 0.42rem 1.1rem;
+      font-family: 'Caveat', cursive;
+      font-size: 0.98rem; letter-spacing: 0.05em;
+      text-decoration: none;
+      color: rgba(245,237,216,0.9);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .topbar-cta:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.75); color: #fff; }
+    .topbar.solid .topbar-cta { border-color: rgba(58,46,36,0.35); color: var(--ink); }
+    .topbar.solid .topbar-cta:hover { background: rgba(181,96,58,0.08); border-color: var(--accent1); }
+
+    /* ══════════════════════════════
+       HERO — full bleed
+    ══════════════════════════════ */
+    #hero {
+      position: relative;
+      height: 100svh; min-height: 100dvh;
+      overflow: hidden;
+      display: flex; align-items: flex-end;
+      z-index: 0;
+    }
+
+    /* slideshow bg */
+    .hero-slides { position: absolute; inset: 0; z-index: 0; }
+    .hero-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      filter: saturate(0.75) brightness(0.88);
+    }
+
+    /* gradient overlay */
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(to top, rgba(18,11,5,0.96) 0%, rgba(18,11,5,0.72) 35%, rgba(18,11,5,0.45) 65%, rgba(18,11,5,0.25) 100%),
+        linear-gradient(to right, rgba(18,11,5,0.5) 0%, rgba(18,11,5,0.15) 60%, transparent 100%),
+        rgba(18,11,5,0.18);
+    }
+
+    /* giant ghost text in background */
+    .hero-ghost-word {
+      position: absolute;
+      bottom: 30%;
+      left: -2%;
+      font-family: 'Geraldine', 'Cormorant Garamond', serif;
+      font-size: clamp(7rem, 14vw, 14rem);
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(245,237,216,0.06);
+      pointer-events: none;
+      z-index: 1;
+      user-select: none;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    /* hero content */
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 4rem 4.5rem;
+      max-width: 800px;
+    }
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'Caveat', cursive;
+      font-size: 0.9rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 32px; height: 1px;
+      background: var(--gold); opacity: 0.7;
+    }
+    .hero-name {
+      font-family: 'Geraldine', 'Lovers Quarrel', cursive;
+      font-size: clamp(3.5rem, 7vw, 7.5rem);
+      font-weight: 400;
+      color: #f5edd8;
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      margin-bottom: 1.4rem;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      font-style: italic;
+      color: rgba(245,237,216,0.78);
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 2.2rem;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--gold);
+      color: var(--dark);
+      border: none; border-radius: 999px;
+      padding: 0.75rem 1.8rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem; letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: #e0aa45; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,150,58,0.35); }
+    /* slide dots */
+    .hero-dots {
+      position: absolute; bottom: 2rem; right: 2.5rem;
+      display: flex; flex-direction: column; gap: 6px; z-index: 3;
+    }
+    .hero-dot {
+      width: 4px; height: 4px; border-radius: 999px;
+      background: rgba(245,237,216,0.35);
+      transition: all 0.4s ease; cursor: pointer; border: none;
+    }
+    .hero-dot.active { background: var(--gold); height: 20px; }
+
+    /* scroll hint */
+    .hero-scroll {
+      position: absolute; bottom: 2.2rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      transition: opacity 0.5s ease; pointer-events: none;
+    }
+    .hero-scroll.hidden { opacity: 0; }
+    .hero-scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(201,150,58,0.8), transparent);
+      animation: scrollLine 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      40% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      80% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+    .hero-scroll span {
+      font-family: 'Caveat', cursive; font-size: 0.72rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(245,237,216,0.5);
+    }
+
+    /* ══════════════════════════════
+       MARQUEE STRIP
+    ══════════════════════════════ */
+    .marquee-strip {
+      background: var(--dark2);
+      border-top: 1px solid rgba(201,150,58,0.2);
+      border-bottom: 1px solid rgba(201,150,58,0.2);
+      padding: 0.9rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-track {
+      display: flex; gap: 0; white-space: nowrap;
+      animation: marqueeScroll 28s linear infinite;
+      will-change: transform;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 1.2rem;
+      padding: 0 2rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(201,150,58,0.7);
+      flex-shrink: 0;
+    }
+    .marquee-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(201,150,58,0.4); flex-shrink: 0;
+    }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ══════════════════════════════
+       SECTION SHARED
+    ══════════════════════════════ */
+    .section { position: relative; padding: 7rem 0; }
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+    .section-label {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'Caveat', cursive;
+      font-size: 0.82rem; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent1);
+      margin-bottom: 0.8rem;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 24px; height: 1px;
+      background: var(--accent1);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 600; font-style: italic;
+      color: var(--ink); line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+    .section-title-ghost {
+      position: absolute;
+      font-family: 'Geraldine', serif;
+      font-size: clamp(5rem, 10vw, 9rem);
+      font-weight: 400; line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(58,46,36,0.06);
+      pointer-events: none; user-select: none;
+      top: 4rem; left: 2rem;
+      white-space: nowrap;
+      z-index: 0;
+    }
+
+    /* fade in */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-32px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(32px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ══════════════════════════════
+       FEATURE: CONTACT "NEW PAGE" SLIDE-OVER
+       — the section right before #links dims/shrinks back,
+         and #links rises over it like a fresh page.
+    ══════════════════════════════ */
+    #shop {
+      transform: scale(1);
+      filter: brightness(1) blur(0px);
+      transition: transform 0.12s linear, filter 0.12s linear;
+    }
+    #links {
+      position: relative;
+      transform: translateY(9%);
+      opacity: 0;
+      background: var(--paper);
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -18px 60px rgba(26,18,8,0);
+      transition: transform 0.12s linear, opacity 0.12s linear, box-shadow 0.12s linear;
+      will-change: transform, opacity;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #shop, #links { transition: none; transform: none; filter: none; }
+      #links { opacity: 1; }
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.45s; }
+    .delay-5 { transition-delay: 0.6s; }
+
+    /* ══════════════════════════════
+       ABOUT SECTION
+    ══════════════════════════════ */
+    #about {
+      background:
+        radial-gradient(ellipse at 5% 50%, rgba(122,158,126,0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 95% 20%, rgba(201,150,58,0.09) 0%, transparent 45%),
+        linear-gradient(170deg, #f0e8d4 0%, #f5edd8 40%, #ede3cc 100%);
+      position: relative;
+    }
+    /* subtle notebook line texture */
+    #about::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(58,46,36,0.03) 1px, transparent 1px);
+      background-size: 100% 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* thin gold border top */
+    #about::after {
+      content: '';
+      position: absolute; top: 0; left: 5%; right: 5%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,150,58,0.35) 30%, rgba(201,150,58,0.35) 70%, transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+    #about .section-inner { position: relative; z-index: 2; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 6rem;
+      align-items: center;
+      position: relative; z-index: 1;
+    }
+    .about-photo-wrap { position: relative; }
+
+    /* ── Sketchbook torn-paper card ── */
+    .sketch-card {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding-bottom: 3rem;
+    }
+    /* stacked papers — sit directly behind, peek out slightly */
+    .sketch-stack {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 3rem; /* same as card padding-bottom so it aligns with paper */
+      z-index: 0;
+    }
+    .sketch-stack--1 {
+      background: #e8e2d4;
+      transform: rotate(-2deg);
+      transform-origin: center center;
+      box-shadow: 0 6px 20px rgba(58,46,36,0.12);
+    }
+    .sketch-stack--2 {
+      background: #ddd6c6;
+      transform: rotate(2deg);
+      transform-origin: center center;
+      box-shadow: 0 6px 20px rgba(58,46,36,0.09);
+    }
+    .sketch-card-paper {
+      position: relative;
+      background: #f0ece2;
+      z-index: 1;
+      box-shadow:
+        0 2px 0 rgba(255,255,255,0.6) inset,
+        0 8px 32px rgba(58,46,36,0.16);
+    }
+    .sketch-torn {
+      display: block;
+      width: 100%;
+      height: 18px;
+      position: relative;
+      z-index: 2;
+    }
+    .sketch-torn--top  { margin-bottom: -1px; }
+    .sketch-torn--bottom { margin-top: -1px; }
+    .sketch-card-img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    /* name card */
+    .sketch-name-card {
+      position: absolute;
+      bottom: 0.6rem;
+      right: -10px;
+      background: #f7f3ea;
+      border: 1px solid rgba(58,46,36,0.1);
+      padding: 0.55rem 1.1rem 0.6rem;
+      box-shadow: 0 4px 16px rgba(58,46,36,0.13);
+      z-index: 3;
+      transform: rotate(-1deg);
+    }
+    .sketch-washi {
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%) rotate(1deg);
+      width: 52px; height: 14px;
+      background: rgba(210,185,140,0.65);
+      background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.3) 0, rgba(255,255,255,0.3) 1px, transparent 1px, transparent 5px);
+      border-radius: 2px;
+    }
+    .sketch-name-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.55;
+      white-space: nowrap;
+      margin: 0;
+    }
+    @media (max-width: 768px) {
+      .sketch-card { max-width: 280px; }
+      .sketch-name-card { right: 0; }
+    }
+
+    /* arch frame — cream mat */
+    .about-arch {
+      position: relative;
+      width: 100%; max-width: 380px;
+      margin: 0 auto;
+    }
+    .about-arch-frame {
+      position: relative;
+      border-radius: 50% 50% 6px 6px / 44% 44% 6px 6px;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: #ede8da;
+      box-shadow:
+        0 0 0 14px #ede8da,
+        0 0 0 15px rgba(58,46,36,0.18),
+        0 0 0 16px rgba(201,150,58,0.12),
+        0 24px 48px rgba(58,46,36,0.32),
+        0 6px 16px rgba(58,46,36,0.18);
+    }
+    .about-arch-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.9s ease;
+    }
+    .about-arch-frame:hover img { transform: scale(1.03); }
+    /* outer thin ring */
+    .about-arch::before {
+      content: '';
+      position: absolute;
+      inset: -22px;
+      border-radius: 52% 52% 8px 8px / 46% 46% 8px 8px;
+      border: 1px solid rgba(58,46,36,0.13);
+      pointer-events: none; z-index: 1;
+    }
+    /* tape removed */
+    .about-tape { display: none; }
+    /* handwritten name card */
+    .about-name-card {
+      position: absolute;
+      bottom: 52px; right: -20px;
+      background: rgba(253,248,238,0.92);
+      backdrop-filter: blur(8px);
+      padding: 0.55rem 1rem 0.6rem;
+      box-shadow:
+        0 4px 18px rgba(58,46,36,0.16),
+        0 1px 0 rgba(255,255,255,0.7) inset;
+      transform: rotate(-3deg);
+      z-index: 4;
+      border: 1px solid rgba(58,46,36,0.14);
+    }
+    .about-name-card::before {
+      content: '';
+      position: absolute;
+      top: -9px; left: 50%;
+      transform: translateX(-50%) rotate(3deg);
+      width: 44px; height: 14px;
+      background: rgba(210,185,140,0.6);
+      background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.3) 0, rgba(255,255,255,0.3) 1px, transparent 1px, transparent 5px);
+      border-radius: 2px;
+    }
+    .about-name-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem; color: var(--ink);
+      line-height: 1.5; white-space: nowrap;
+    }
+
+    /* ── Fix 3: floating left accent ── */
+    .about-left-accent {
+      position: absolute;
+      left: -38px;
+      top: 18%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .about-left-badge {
+      font-family: 'Caveat', cursive;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent1);
+      background: var(--paper);
+      border: 1px solid rgba(201,150,58,0.3);
+      border-radius: 999px;
+      padding: 0.2rem 0.65rem;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(58,46,36,0.08);
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+    @media (max-width: 1024px) { .about-left-accent { display: none; } }
+
+    /* ── Fix 4: anchor frame for left column ── */
+    .about-photo-anchor {
+      background: var(--paper);
+      border: 1px solid rgba(58,46,36,0.07);
+      border-radius: 4px;
+      padding: 2.8rem 2rem 2.4rem;
+      display: flex;
+      justify-content: center;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.9) inset,
+        0 4px 24px rgba(58,46,36,0.07);
+      position: relative;
+    }
+    .about-photo-anchor::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 4px;
+      background-image: linear-gradient(rgba(58,46,36,0.025) 1px, transparent 1px);
+      background-size: 100% 28px;
+      pointer-events: none;
+    }
+    .about-photo-anchor::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 10%; right: 10%;
+      height: 1.5px;
+      background: linear-gradient(to right, transparent, rgba(201,150,58,0.5) 30%, rgba(201,150,58,0.5) 70%, transparent);
+      border-radius: 999px;
+    }
+    @media (max-width: 768px) {
+      .about-photo-anchor { padding: 2rem 1.2rem 1.8rem; }
+    }
+
+    /* text side */
+    .about-text { position: relative; z-index: 1; }
+    .about-bio {
+      font-size: 0.95rem; line-height: 1.9;
+      color: rgba(58,46,36,0.82);
+      margin-bottom: 1.4rem;
+    }
+    .about-bio em { font-style: italic; color: var(--accent1); }
+
+    /* stats row — vertical dividers */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin: 2.4rem 0 2rem;
+      padding: 1.8rem 0;
+      border-top: 1px solid rgba(58,46,36,0.12);
+      border-bottom: 1px solid rgba(58,46,36,0.12);
+    }
+    .stat-item {
+      text-align: center;
+      padding: 0 0.5rem;
+      border-right: 1px solid rgba(58,46,36,0.12);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 600;
+      color: var(--ink); line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-suffix { font-size: 1.6rem; color: var(--accent1); }
+    .stat-label {
+      font-family: 'Caveat', cursive;
+      font-size: 0.78rem; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      display: block; margin-top: 0.4rem;
+    }
+
+    /* focus tags */
+    .focus-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .focus-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.32rem 0.9rem;
+      border: 1px solid rgba(58,46,36,0.2);
+      border-radius: 999px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      color: rgba(58,46,36,0.6);
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    .focus-tag svg { flex-shrink: 0; opacity: 0.7; }
+    .focus-tag:hover { border-color: var(--accent1); color: var(--accent1); }
+    .focus-tag:hover svg { opacity: 1; }
+
+    /* ══════════════════════════════
+       SCROLLING WORD BAND
+    ══════════════════════════════ */
+    .word-band {
+      overflow: hidden;
+      padding: 1.5rem 0;
+      position: relative;
+    }
+    .word-band-track {
+      display: flex; white-space: nowrap;
+      animation: marqueeScroll 20s linear infinite;
+    }
+    .word-band-track.reverse { animation-direction: reverse; }
+    .word-band-item {
+      display: inline-flex; align-items: center; gap: 2rem;
+      padding: 0 2rem;
+      font-family: 'Lovers Quarrel', cursive;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(58,46,36,0.35);
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      transition: -webkit-text-stroke 0.3s ease;
+    }
+    .word-band-item:hover {
+      -webkit-text-stroke-color: rgba(181,96,58,0.6);
+    }
+    .word-band-sep {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      width: 28px; height: 28px; opacity: 0.45;
+    }
+    .word-band-sep img { width: 100%; height: 100%; object-fit: contain; }
+    .word-band.dark .word-band-sep { opacity: 0.35; filter: brightness(0) invert(1); }
+    /* floral inline SVG separator */
+    .floral-sep {
+      display: inline-flex; align-items: center; flex-shrink: 0;
+      opacity: 0.4;
+    }
+    /* dark variant */
+    .word-band.dark { background: var(--dark2); }
+    .word-band.dark .word-band-item {
+      -webkit-text-stroke: 1px rgba(245,237,216,0.25);
+    }
+    .word-band.dark .word-band-item:hover {
+      -webkit-text-stroke-color: rgba(201,150,58,0.65);
+    }
+
+    /* ══════════════════════════════
+       GALLERY SECTION
+    ══════════════════════════════ */
+    #gallery { background: var(--bg); position: relative; z-index: 2; margin-top: -2.5rem; }
+    /* torn paper edge: Gallery slides up over the bottom of About, like the Shop→Links seam */
+    #gallery::before {
+      content: ''; position: absolute; left: 0; right: 0; top: -17px; height: 18px; z-index: 1;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='18' viewBox='0 0 120 18' preserveAspectRatio='none'%3E%3Cpath d='M0 18V9l8 3 7-6 9 5 9-6 8 5 11-6 8 5 10-6 9 7 9-5 9 6 8-5 8 4 6-2v10z' fill='%23f5edd8'/%3E%3C/svg%3E") repeat-x bottom / 120px 18px;
+    }
+    #about { padding-bottom: 8.5rem; }
+    .gallery-intro {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; flex-wrap: wrap; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .gallery-subtitle-text {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.9rem; color: var(--ink-soft);
+    }
+    .gallery-view-all {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Caveat', cursive; font-size: 1rem;
+      letter-spacing: 0.08em; color: var(--accent1);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(181,96,58,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, gap 0.2s;
+    }
+    .gallery-view-all:hover { gap: 0.8rem; border-color: var(--accent1); }
+
+    /* polaroid track */
+    .gallery-carousel-root { position: relative; width: 100%; }
+    .gallery-track-wrap { overflow: hidden; transform: rotate(var(--lean, 0deg)); will-change: transform; }
+    .gallery-track {
+      display: flex; gap: 24px; align-items: center;
+      padding: 24px 0 40px;
+      transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform; cursor: grab; user-select: none;
+    }
+    .gallery-track:active { cursor: grabbing; }
+    .gallery-card {
+      flex-shrink: 0; width: 260px;
+      text-decoration: none; color: inherit;
+      --tilt: 0deg;
+      transform: rotate(var(--tilt));
+      transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), filter 0.4s, opacity 0.4s;
+      position: relative; z-index: 1;
+    }
+    .gallery-card.is-side { filter: blur(2px); opacity: 0.45; transform: scale(0.87) rotate(var(--tilt)); }
+    .gallery-card:hover { transform: rotate(0deg) translateY(-10px) scale(1.04) !important; filter: none !important; opacity: 1 !important; z-index: 20; }
+    .gallery-card-inner {
+      background: #fffdf8; border-radius: 2px;
+      padding: 10px 10px 44px;
+      box-shadow: 0 4px 12px rgba(58,46,36,0.12), 0 16px 40px rgba(58,46,36,0.1);
+      position: relative;
+    }
+    .gallery-photo { width: 100%; height: 280px; overflow: hidden; border-radius: 2px; background: #f0ece4; }
+    .gallery-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+    .gallery-card:hover .gallery-photo img { transform: scale(1.07); }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 44px; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 10px;
+    }
+    .gallery-caption span { font-family: 'Caveat', cursive; font-size: 0.82rem; color: rgba(58,46,36,0.75); }
+    .gallery-caption svg { opacity: 0.4; flex-shrink: 0; }
+    .gallery-card:hover .gallery-caption svg { opacity: 0.9; }
+    /* tape removed */
+    .gallery-tape, .about-tape, .cat-tape { display: none; }
+    .gallery-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 20; width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid rgba(58,46,36,0.18);
+      background: rgba(253,248,238,0.96); backdrop-filter: blur(8px);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(58,46,36,0.1);
+      transition: all 0.2s ease;
+    }
+    .gallery-arrow:hover { background: rgba(181,96,58,0.12); transform: translateY(-50%) scale(1.06); border-color: rgba(181,96,58,0.3); }
+    .gallery-arrow-left { left: -14px; }
+    .gallery-arrow-right { right: -14px; }
+    .gallery-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; }
+    .gallery-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(58,46,36,0.2); cursor: pointer; transition: all 0.3s; border: none; padding: 0; }
+    .gallery-dot.active { background: rgba(58,46,36,0.75); width: 22px; border-radius: 999px; }
+
+    /* ══════════════════════════════
+       SHOP SECTION
+    ══════════════════════════════ */
+    #shop {
+      background: linear-gradient(160deg, #1a1208 0%, #2a1f14 50%, #3a2b1e 100%);
+      position: relative; overflow: hidden;
+    }
+    #shop::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 80%, rgba(181,96,58,0.12) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 15%, rgba(122,158,126,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    #shop .section-label { color: rgba(201,150,58,0.8); }
+    #shop .section-label::before { background: rgba(201,150,58,0.8); }
+    #shop .section-title { color: #f5edd8; }
+    #shop .section-title-ghost { -webkit-text-stroke-color: rgba(245,237,216,0.05); }
+
+    .shop-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2.4rem; position: relative; z-index: 1;
+      padding-top: 1rem;
+      align-items: start;
+    }
+
+    /* ── Each string column: rope + two cards ── */
+    .shop-string {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      opacity: 0;
+    }
+    /* long rope for the whole string */
+    .shop-string-rope {
+      width: 4px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+    /* gap rope between the two cards on the same string */
+    .shop-string-mid-rope {
+      width: 4px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    /* ── Hanging strings: motion is driven by JS (pendulum physics + wind) ── */
+    .shop-string { will-change: transform, opacity; }
+    .shop-seg {
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%; transform-origin: top center; will-change: transform;
+    }
+    .shop-string-rope, .shop-string-mid-rope { position: relative; z-index: 2; margin-bottom: -5px; }
+
+    .shop-tag {
+      background: rgba(245,237,216,0.96);
+      position: relative; padding: 1.5rem 1.1rem 1.3rem;
+      text-decoration: none; color: var(--ink);
+      display: flex; flex-direction: column; gap: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      overflow: visible;
+      width: 100%;
+    }
+    /* hover uses the individual `translate` property so it never fights the JS-driven `transform` */
+    .shop-tag {
+      transform-origin: top center; will-change: transform;
+      transition: translate 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease;
+    }
+    .shop-tag:hover { translate: 0 -5px; box-shadow: 0 18px 44px rgba(0,0,0,0.45); }
+    /* small eyelet where the string ties on */
+    .shop-tag::before {
+      content: ''; position: absolute; top: 4px; left: 50%;
+      width: 8px; height: 8px; margin-left: -4px; border-radius: 50%;
+      border: 1.5px solid rgba(201,150,58,0.85); background: #2a1f14;
+    }
+    .shop-tag-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; font-style: italic; margin-top: 0.7rem; }
+    .shop-tag-platform { font-family: 'Caveat', cursive; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent1); }
+    .shop-tag-desc { font-size: 0.76rem; color: rgba(58,46,36,0.72); line-height: 1.65; border-top: 1px dashed rgba(58,46,36,0.15); padding-top: 0.6rem; margin-top: 0.2rem; }
+    .shop-doodle { position: absolute; top: 10px; right: 12px; width: 46px; height: 46px; opacity: 0.55; transition: opacity 0.25s, transform 0.25s; }
+    .shop-tag:hover .shop-doodle { opacity: 1; transform: rotate(-3deg) scale(1.08); }
+
+    /* hanging string bar */
+    .shop-string-bar {
+      position: relative; height: 28px; margin-bottom: 0.5rem;
+    }
+    .shop-string-bar::before {
+      content: ''; position: absolute; top: 50%; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,150,58,0.4) 10%, rgba(201,150,58,0.4) 90%, transparent);
+    }
+
+    /* ══════════════════════════════
+       LINKS SECTION
+    ══════════════════════════════ */
+    #links { background: var(--paper); position: relative; z-index: 2; margin-top: -2.5rem; }
+    /* torn paper edge: the section slides over the bottom of the shop like a curtain */
+    #links::before {
+      content: ''; position: absolute; left: 0; right: 0; top: -17px; height: 18px; z-index: 1;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='18' viewBox='0 0 120 18' preserveAspectRatio='none'%3E%3Cpath d='M0 18V9l8 3 7-6 9 5 9-6 8 5 11-6 8 5 10-6 9 7 9-5 9 6 8-5 8 4 6-2v10z' fill='%23fdf8ee'/%3E%3C/svg%3E") repeat-x bottom / 120px 18px;
+    }
+    #shop { padding-bottom: 9.5rem; }
+
+    /* ── Postcard ── */
+    .postcard {
+      position: relative; max-width: 880px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.05fr 1fr;
+      background: #fffdf8;
+      box-shadow: 0 2px 6px rgba(58,46,36,0.1), 0 26px 60px rgba(58,46,36,0.16);
+      transform-origin: 50% 0;
+    }
+    .postcard.reveal { transform: translateY(70px) rotate(-5deg); transition: opacity 0.6s ease, transform 1.3s cubic-bezier(0.34,1.35,0.5,1); }
+    .postcard.reveal.visible { transform: translateY(0) rotate(-1deg); }
+    /* airmail edge, top and bottom */
+    .postcard::before, .postcard::after {
+      content: ''; position: absolute; left: 0; right: 0; height: 7px;
+      background: repeating-linear-gradient(-45deg, #b5603a 0 14px, #fffdf8 14px 22px, #5b7891 22px 36px, #fffdf8 36px 44px);
+    }
+    .postcard::before { top: 0; } .postcard::after { bottom: 0; }
+
+    .pc-msg { padding: 3.4rem 2.6rem 2.8rem; border-right: 1px solid rgba(58,46,36,0.2); }
+    .pc-hello { font-family: 'Caveat', cursive; font-size: 1.6rem; color: var(--accent1); margin-bottom: 0.3rem; }
+    .pc-msg .section-title { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+    .pc-msg p.pc-text { font-family: 'Lora', serif; font-style: italic; font-size: 0.9rem; line-height: 1.85; color: rgba(58,46,36,0.78); margin-top: 0.9rem; }
+    .pc-cta {
+      display: inline-block; margin-top: 1.5rem; padding: 0.5rem 1.5rem;
+      border: 1px solid var(--ink); border-radius: 999px; color: var(--ink); text-decoration: none;
+      font-family: 'Caveat', cursive; font-size: 1.15rem; letter-spacing: 0.04em;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, translate 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .pc-cta:hover { background: var(--accent1); border-color: var(--accent1); color: #fffdf8; translate: 0 -2px; }
+    .pc-sign { font-family: 'Geraldine', 'Lovers Quarrel', cursive; font-size: 2.1rem; color: var(--ink); margin-top: 1.4rem; line-height: 1; }
+
+    .pc-addr { position: relative; padding: 3.4rem 2.4rem 2.6rem; }
+    .pc-stamp {
+      position: absolute; top: 1.7rem; right: 1.7rem; width: 68px; height: 84px; padding: 9px;
+      background: #efe4cb; outline: 4px dotted #fffdf8; outline-offset: -5px;
+      box-shadow: 0 0 0 1px rgba(58,46,36,0.12); display: flex;
+    }
+    .pc-stamp svg { width: 100%; height: 100%; }
+    .pc-postmark { position: absolute; top: 1.1rem; right: 3.9rem; width: 150px; color: rgba(58,46,36,0.55); opacity: 0; pointer-events: none; }
+    .postcard.visible .pc-postmark { animation: pcThud 0.55s cubic-bezier(0.2,0.9,0.3,1) 1s both; }
+    @keyframes pcThud {
+      from { opacity: 0; transform: rotate(-14deg) scale(1.6); }
+      to   { opacity: 0.6; transform: rotate(-14deg) scale(1); }
+    }
+    .pc-lines { margin-top: 5.6rem; }
+    .pc-line {
+      display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.2rem;
+      border-bottom: 1px solid rgba(58,46,36,0.22);
+      font-family: 'Caveat', cursive; font-size: 1.25rem; color: var(--ink); text-decoration: none;
+      opacity: 0; transform-origin: left center;
+      background: linear-gradient(var(--accent1), var(--accent1)) 0 100% / 0 1px no-repeat;
+      transition: background-size 0.45s cubic-bezier(0.22,1,0.36,1), translate 0.45s cubic-bezier(0.22,1,0.36,1), color 0.25s;
+    }
+    .pc-line:hover { background-size: 100% 1px; translate: 6px 0; color: var(--accent1); }
+    /* each line settles into place with its own small tilt */
+    .postcard.visible .pc-line { animation: pcLineIn 0.8s cubic-bezier(0.22,1,0.36,1) both; animation-delay: calc(0.5s + var(--i) * 0.09s); }
+    .pc-line:nth-child(odd)  { --tilt: -2.2deg; }
+    .pc-line:nth-child(even) { --tilt: 1.6deg; }
+    @keyframes pcLineIn {
+      from { opacity: 0; transform: translateY(14px) rotate(var(--tilt)); }
+      to   { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pc-line { opacity: 1; animation: none !important; }
+      .pc-postmark { opacity: 0.6; animation: none !important; transform: rotate(-14deg); }
+      .postcard.reveal, .postcard.reveal.visible { transform: rotate(-1deg); transition: none; }
+    }
+
+    /* ══════════════════════════════
+       REVIEWS — CARD GRID
+    ══════════════════════════════ */
+    #notes {
+      background: linear-gradient(160deg, #1a1208 0%, #2a1f14 55%, #3a2b1e 82%, #1a1208 100%);
+      overflow: hidden; position: relative;
+    }
+    #notes::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(181,96,58,0.1) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 20%, rgba(122,158,126,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    #notes .section-label { color: rgba(201,150,58,0.8); }
+    #notes .section-label::before { background: rgba(201,150,58,0.8); }
+    #notes .section-title { color: #f5edd8; }
+    #notes .section-inner { position: relative; z-index: 1; }
+
+    /* ── Index-card box: one review at a time, flips over to the next ── */
+    .review-box {
+      position: relative; max-width: 460px; margin: 3.5rem auto 0;
+    }
+    /* two card edges peeking out behind the box, like a small stack */
+    .review-box::before, .review-box::after {
+      content: ''; position: absolute; inset: 0;
+      background: #fffdf8; box-shadow: 0 10px 22px rgba(0,0,0,0.28);
+    }
+    .review-box::before { transform: rotate(-3.5deg) translateY(3px); z-index: 0; }
+    .review-box::after  { transform: rotate(2.5deg) translateY(5px);  z-index: 0; opacity: 0.85; }
+
+    .review-stack {
+      position: relative; z-index: 2;
+      min-height: 268px; /* JS sets the true measured height once cards mount */
+    }
+    .r-card {
+      position: absolute; inset: 0;
+      background: #fffdf8; padding: 2rem 2.1rem 1.7rem;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.32);
+      transform-origin: center;
+      opacity: 0; pointer-events: none;
+      transition: transform 0.55s cubic-bezier(0.32,0.72,0.28,1), opacity 0.4s ease;
+      /* faint ruled lines, like a real index card */
+      background-image: repeating-linear-gradient(rgba(58,46,36,0.05) 0 1px, transparent 1px 2.1rem);
+      background-position: 0 4.9rem;
+    }
+    .r-card.active { position: relative; opacity: 1; pointer-events: auto; transform: none; z-index: 2; }
+    .r-card-pin {
+      position: absolute; top: -10px; left: 28px; width: 22px; height: 22px;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.35));
+    }
+    .r-card .rcard-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem; line-height: 0.6; color: rgba(181,96,58,0.28);
+      display: block; margin-bottom: 0.6rem; user-select: none;
+    }
+    .r-card .rcard-text {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.92rem; line-height: 1.85; color: var(--ink);
+      min-height: 5.6rem;
+    }
+    .r-card .rcard-footer {
+      display: flex; align-items: center; gap: 0.7rem;
+      border-top: 1px dashed rgba(58,46,36,0.18);
+      padding-top: 0.9rem; margin-top: 1.1rem;
+    }
+    .r-card .rcard-line { width: 18px; height: 1px; background: var(--accent1); flex-shrink: 0; }
+    .r-card .rcard-name {
+      font-family: 'Caveat', cursive; font-size: 1.05rem;
+      letter-spacing: 0.03em; color: var(--ink); display: block;
+    }
+    .r-card .rcard-role {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 0.72rem; color: rgba(58,46,36,0.5);
+    }
+
+    .review-controls {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: center; gap: 1.4rem;
+      margin-top: 1.6rem;
+    }
+    .review-arrow {
+      width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(245,237,216,0.25);
+      background: transparent; color: rgba(245,237,216,0.85);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .review-arrow:hover { border-color: var(--gold); background: rgba(201,150,58,0.12); transform: scale(1.06); }
+    .review-count {
+      font-family: 'Caveat', cursive; font-size: 1rem; letter-spacing: 0.06em;
+      color: rgba(245,237,216,0.55); min-width: 3.2em; text-align: center;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .r-card { transition: opacity 0.3s ease; }
+    }
+    @media (max-width: 640px) {
+      .review-box { max-width: 94%; }
+      .r-card { padding: 1.7rem 1.5rem 1.4rem; }
+      .review-arrow { width: 42px; height: 42px; } /* bigger tap target on touch */
+      .review-controls { gap: 1.8rem; }
+    }
+
+    /* sidebar — hidden, navigation handled by mobile pill nav and scroll */
+    .sidebar { display: none; }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    #site-footer {
+      background: var(--dark);
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 3rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto; width: 100%;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-copy { font-family: 'Caveat', cursive; font-size: 1rem; color: rgba(245,237,216,0.5); }
+    .footer-heart { color: rgba(181,96,58,0.7); }
+
+    /* ══════════════════════════════
+       MOBILE BOTTOM NAV
+    ══════════════════════════════ */
+    .mobile-nav {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 500; padding: 0 1.5rem 1.2rem;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .mobile-nav.hidden-on-hero {
+      opacity: 0; transform: translateY(100%); pointer-events: none;
+    }
+    .mobile-nav-pill {
+      background: rgba(245,237,216,0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(58,46,36,0.1);
+      border-radius: 999px;
+      display: flex; align-items: center;
+      justify-content: space-around;
+      padding: 0.6rem 1rem;
+      box-shadow: 0 8px 32px rgba(58,46,36,0.18), 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .mobile-nav-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px 10px; border-radius: 12px;
+      transition: all 0.2s; color: var(--ink); opacity: 0.4;
+      font-family: 'Caveat', cursive; font-size: 0.6rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .mobile-nav-btn img { width: 20px; height: 20px; object-fit: contain; }
+    .mobile-nav-btn.active { opacity: 1; color: var(--accent1); }
+    .mobile-nav-home-btn {
+      position: relative;
+      background: var(--ink) !important;
+      border-radius: 999px !important;
+      padding: 6px 14px !important;
+      opacity: 1 !important;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .mobile-nav-home-btn img { filter: brightness(0) invert(1); }
+    .mobile-nav-home-btn span { color: rgba(245,237,216,0.85); font-size: 0.58rem !important; display: block; }
+    .mobile-nav-home-btn.active { background: var(--accent1) !important; }
+
+    /* floating petals */
+    .petal { position: fixed; pointer-events: none; z-index: 1; opacity: 0; }
+    @keyframes petalFall1 { 0%{transform:translateY(-20px) translateX(0) rotate(0);opacity:0;} 10%{opacity:0.7;} 90%{opacity:0.4;} 100%{transform:translateY(100vh) translateX(60px) rotate(360deg);opacity:0;} }
+    @keyframes petalFall2 { 0%{transform:translateY(-20px) rotate(45deg);opacity:0;} 10%{opacity:0.6;} 100%{transform:translateY(100vh) translateX(-50px) rotate(270deg);opacity:0;} }
+    @keyframes petalFall3 { 0%{transform:translateY(-20px) rotate(-20deg);opacity:0;} 10%{opacity:0.55;} 100%{transform:translateY(100vh) translateX(35px) rotate(300deg);opacity:0;} }
+
+    /* ══════════════════════════════
+       RESPONSIVE — Tablet
+    ══════════════════════════════ */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .section-inner { padding: 0 2rem; }
+      .about-grid { gap: 3rem; grid-template-columns: 1fr 1fr; }
+      .shop-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-content { padding: 0 2.5rem 4rem; }
+      .sidebar { display: flex; }
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE — Mobile
+    ══════════════════════════════ */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .section { padding: 4.5rem 0; }
+      .section-inner { padding: 0 1.25rem; }
+      .section-title { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+      .section-title-ghost { font-size: clamp(4rem, 14vw, 6rem); top: 2rem; }
+
+      /* hero mobile */
+      .hero-content { padding: 0 1.5rem 5.5rem; }
+      .hero-name { font-size: clamp(3rem, 13vw, 5.5rem); }
+      .hero-ghost-word { font-size: clamp(5rem, 20vw, 9rem); bottom: 28%; }
+      .hero-dots { flex-direction: row; bottom: 1.4rem; right: 50%; transform: translateX(50%); flex-direction: row; }
+      .hero-dot.active { height: 4px; width: 20px; }
+      .hero-scroll { display: none; }
+
+      /* about mobile */
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-arch { max-width: 280px; }
+      .about-name-card { right: 0; bottom: 20px; }
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 0; }
+      .stat-number { font-size: 2.2rem; }
+
+      /* shop mobile */
+      .shop-grid { grid-template-columns: 1fr 1fr; gap: 1.2rem; padding-top: 1rem; }
+      .shop-tag { padding: 1.4rem 1rem 1.2rem; }
+      .shop-doodle { width: 34px; height: 34px; top: 8px; right: 8px; opacity: 0.7; }
+      .shop-string-bar { display: none; }
+      .shop-string-rope { height: 28px; }
+      .shop-string-mid-rope { height: 20px; }
+
+      /* links mobile */
+      .postcard { grid-template-columns: 1fr; }
+      .pc-msg { border-right: 0; border-bottom: 1px solid rgba(58,46,36,0.2); padding: 3rem 1.5rem 2rem; }
+      .pc-addr { padding: 2.6rem 1.5rem 2.2rem; }
+      .pc-lines { margin-top: 1rem; }
+      .pc-stamp { top: -2.4rem; right: 1.2rem; }
+      .pc-postmark { top: -3rem; right: 3.4rem; }
+
+      /* reviews mobile */
+      .reviews-grid { columns: 2; column-gap: 0.8rem; margin-top: 2rem; }
+      .rcard { margin-bottom: 0.8rem; padding: 1.2rem 1rem 1.4rem; }
+      .rcard-text { font-size: 0.78rem; }
+
+      /* gallery mobile */
+      .gallery-card { width: 160px; }
+      .gallery-photo { height: 180px; }
+      #galleryPrev, #galleryNext { display: none; }
+
+      /* mobile nav */
+      .mobile-nav { display: block; }
+
+      /* topbar */
+      .topbar { padding: 0.7rem 1.2rem; }
+      .topbar-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); flex: none; }
+      .topbar-cta-wrap { display: none; }
+      .topbar-logo img { height: 30px; }
+
+      /* footer */
+      #site-footer { padding: 0 1.25rem 5.5rem; min-height: auto; }
+      .footer-inner { flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; padding: 1.2rem 0; }
+      .footer-copy { font-size: 0.75rem; text-align: center; }
+      .footer-copy:first-child { padding-bottom: 0.2rem; border-bottom: 1px solid rgba(245,237,216,0.1); }
+    }
+
+    @media (max-width: 480px) {
+      .hero-name { font-size: clamp(3.5rem, 18vw, 6rem); }
+      .shop-grid { grid-template-columns: 1fr; }
+      .stats-row { gap: 0.5rem; }
+      .stat-number { font-size: 2rem; }
+      .reviews-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOADING SCREEN ══ -->
+<div id="loadingScreen" aria-hidden="true">
+  <!-- faint lily sticker, mirrored/rotated into each of the 4 corners -->
+  <div class="loader-sticker" data-pos="tl" style="width:360px;top:2.45rem;left:-4rem;--rot:290deg;--flip-y:-1;">
+    <img src="background stickers/6.png" alt="">
+  </div>
+  <div class="loader-sticker" data-pos="tr" style="width:140px;top:-2rem;right:-2.5rem;--rot:-20deg;--flip-x:-1;">
+    <img src="background stickers/7.png" alt="">
+  </div>
+  <div class="loader-sticker" data-pos="bl" style="width:260px;bottom:-0.5rem;left:0.80rem;--rot:-6deg;">
+    <img src="background stickers/1.png" alt="">
+  </div>
+  <div class="loader-sticker" data-pos="br" style="width:260px;bottom:-3rem;right:-3rem;--rot:-6deg;">
+    <img src="background stickers/2.png" alt="">
+  </div>
+  <div class="loader-core">
+    <img class="loader-logo" src="icons/logo top.png" alt="Aergul Creative Studio">
+    <div class="loader-line"></div>
+    <div class="loader-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<!-- ── Floating petals ── -->
+<svg class="petal" style="width:16px;height:16px;left:6%;top:-20px;animation:petalFall1 9s ease-in-out infinite;" viewBox="0 0 20 20" fill="rgba(242,210,220,0.75)" stroke="rgba(181,96,58,0.25)" stroke-width="0.5"><path d="M10 2 C12 6 18 8 18 10 C18 14 14 18 10 18 C6 18 2 14 2 10 C2 8 8 6 10 2Z"/></svg>
+<svg class="petal" style="width:12px;height:12px;left:30%;top:-20px;animation:petalFall2 11s ease-in-out infinite;animation-delay:2s;" viewBox="0 0 20 20" fill="rgba(247,225,227,0.85)" stroke="rgba(181,96,58,0.2)" stroke-width="0.5"><path d="M10 2 C12 6 18 8 18 10 C18 14 14 18 10 18 C6 18 2 14 2 10 C2 8 8 6 10 2Z"/></svg>
+<svg class="petal" style="width:14px;height:14px;left:58%;top:-20px;animation:petalFall3 10s ease-in-out infinite;animation-delay:4s;" viewBox="0 0 20 20" fill="rgba(242,210,220,0.65)" stroke="rgba(181,96,58,0.18)" stroke-width="0.5"><path d="M10 2 C12 6 18 8 18 10 C18 14 14 18 10 18 C6 18 2 14 2 10 C2 8 8 6 10 2Z"/></svg>
+<svg class="petal" style="width:18px;height:18px;left:82%;top:-20px;animation:petalFall1 12s ease-in-out infinite;animation-delay:1s;" viewBox="0 0 20 20" fill="rgba(247,225,227,0.7)" stroke="rgba(181,96,58,0.22)" stroke-width="0.5"><path d="M10 2 C12 6 18 8 18 10 C18 14 14 18 10 18 C6 18 2 14 2 10 C2 8 8 6 10 2Z"/></svg>
+<svg class="petal" style="width:11px;height:11px;left:20%;top:-20px;animation:petalFall3 8s ease-in-out infinite;animation-delay:6s;" viewBox="0 0 24 24" fill="none" stroke="rgba(201,150,58,0.5)" stroke-width="1.2"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5.64 5.64l2.83 2.83M15.54 15.54l2.83 2.83M5.64 18.36l2.83-2.83M15.54 8.46l2.83-2.83"/></svg>
+
+<!-- ══ TOPBAR ══ -->
+<div class="topbar" id="topbar">
+  <div class="topbar-social" style="flex:1;display:flex;align-items:center;gap:14px;">
+    <a href="https://www.instagram.com/sket_vector" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://ch.pinterest.com/Aergul_/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.23-5.22 1.23-5.22s-.31-.63-.31-1.57c0-1.47.85-2.57 1.91-2.57.9 0 1.34.68 1.34 1.49 0 .91-.58 2.27-.88 3.53-.25 1.05.52 1.91 1.55 1.91 1.86 0 3.11-2.39 3.11-5.22 0-2.15-1.45-3.76-4.07-3.76-2.96 0-4.79 2.21-4.79 4.67 0 .85.24 1.44.62 1.9.17.2.19.28.13.51-.04.17-.15.57-.19.73-.06.24-.25.32-.46.23-1.31-.54-1.92-1.98-1.92-3.6 0-2.67 2.25-5.87 6.7-5.87 3.57 0 5.93 2.59 5.93 5.37 0 3.68-2.04 6.44-5.02 6.44-.95 0-1.85-.51-2.16-1.09l-.59 2.28c-.21.82-.79 1.84-1.17 2.46.88.27 1.81.42 2.77.42 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+    </a>
+    <a href="YOUR_ETSY_LINK_HERE" target="_blank" rel="noopener noreferrer" aria-label="Etsy">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M11.4 0C5.1 0 0 5.1 0 11.4s5.1 11.4 11.4 11.4 11.4-5.1 11.4-11.4S17.7 0 11.4 0zm5.2 7.5c0 .1-.1.7-.3 1.7H14c0-.4-.1-.7-.2-.9-.2-.4-.6-.5-1.3-.5h-1.4c-.1 0-.2.1-.2.2v3.2h1.8c.8 0 1.3-.1 1.4-.2.2-.1.3-.5.4-1.1h.5v3.1h-.5c-.1-.6-.2-1-.4-1.1-.2-.1-.6-.2-1.4-.2h-1.8v3c0 .5.1.8.2.9.2.2.6.3 1.2.3h1.5c.8 0 1.4-.2 1.7-.5.3-.3.6-.9.9-1.9h.5l-.5 3h-8.4v-.5c.6-.1 1-.2 1.1-.3.2-.2.2-.5.2-1V8.7c0-.5-.1-.8-.2-.9-.2-.2-.5-.3-1.1-.3V7h8.1l.3.5z"/></svg>
+    </a>
+  </div>
+  <div class="topbar-logo" style="flex:1;display:flex;justify-content:center;">
+    <img src="icons/logo top.png" alt="Aergul Creative Studio" style="height:60px;width:auto;object-fit:contain;">
+  </div>
+  <div class="topbar-cta-wrap" style="flex:1;display:flex;justify-content:flex-end;">
+    <a href="https://www.fiverr.com/alphar3x?public_mode=true" class="topbar-cta" target="_blank" rel="noopener noreferrer">Let's Connect →</a>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar" id="mainSidebar">
+  <button class="sidebar-dot-link active" data-target="#hero" aria-label="Home">
+    <div class="sidebar-dot"></div>
+    <span class="sidebar-dot-label">Home</span>
+  </button>
+  <div class="sidebar-line"></div>
+  <button class="sidebar-dot-link" data-target="#about" aria-label="About">
+    <div class="sidebar-dot"></div>
+    <span class="sidebar-dot-label">Profile</span>
+  </button>
+  <div class="sidebar-line"></div>
+  <button class="sidebar-dot-link" data-target="#gallery" aria-label="Gallery">
+    <div class="sidebar-dot"></div>
+    <span class="sidebar-dot-label">Gallery</span>
+  </button>
+  <div class="sidebar-line"></div>
+  <button class="sidebar-dot-link" data-target="#shop" aria-label="Shop">
+    <div class="sidebar-dot"></div>
+    <span class="sidebar-dot-label">Shop</span>
+  </button>
+  <div class="sidebar-line"></div>
+  <button class="sidebar-dot-link" data-target="#links" aria-label="Links">
+    <div class="sidebar-dot"></div>
+    <span class="sidebar-dot-label">Links</span>
+  </button>
+  <div class="sidebar-line"></div>
+  <button class="sidebar-dot-link" data-target="#notes" aria-label="Kind Words">
+    <div class="sidebar-dot"></div>
+    <span class="sidebar-dot-label">Kind Words</span>
+  </button>
+</aside>
+
+<main>
+
+<!-- ══ HERO ══ -->
+<section id="hero" style="overflow:hidden;">
+  <!-- bottom-left lily cluster -->
+  <div class="deco-sticker dark" style="width:280px;bottom:-30px;left:-20px;transform:translateY(var(--pz,0px)) rotate(-8deg);">
+    <img src="background stickers/1.png" alt="">
+  </div>
+  <!-- slideshow background -->
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active"><img src="slide and gallary/slide1.jpg" alt=""></div>
+    <div class="hero-slide"><img src="slide and gallary/slide2.jpg" alt=""></div>
+    <div class="hero-slide"><img src="slide and gallary/slide3.jpg" alt=""></div>
+    <div class="hero-slide"><img src="slide and gallary/slide4.jpg" alt=""></div>
+    <div class="hero-slide"><img src="slide and gallary/slide5.jpg" alt=""></div>
+    <div class="hero-slide"><img src="slide and gallary/slide6.jpg" alt=""></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <!-- ghost word -->
+  <div class="hero-ghost-word" aria-hidden="true">Aergul</div>
+  <!-- content -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">Vector &amp; Stencil Designer</div>
+    <h1 class="hero-name">Aergul</h1>
+    <p class="hero-tagline">Custom vector &amp; stencil designs crafted for decor, laser cutting, and layered artwork — designed for gifting and personalized projects.</p>
+    <div class="hero-actions">
+      <a href="gallery.html" class="btn-primary">View My Work →</a>
+    </div>
+  </div>
+  <!-- dots -->
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" aria-label="Slide 1"></button>
+    <button class="hero-dot" aria-label="Slide 2"></button>
+    <button class="hero-dot" aria-label="Slide 3"></button>
+    <button class="hero-dot" aria-label="Slide 4"></button>
+    <button class="hero-dot" aria-label="Slide 5"></button>
+    <button class="hero-dot" aria-label="Slide 6"></button>
+  </div>
+  <!-- scroll hint -->
+  <div class="hero-scroll" id="heroScroll">
+    <div class="hero-scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ══ MARQUEE STRIP 1 ══ -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Vector Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Stencil Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Floral Line Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Laser Cut Files<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom Commissions<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Boho Patterns<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Digital Illustrations<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wall Decor Art<span class="marquee-dot"></span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Vector Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Stencil Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Floral Line Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Laser Cut Files<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom Commissions<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Boho Patterns<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Digital Illustrations<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wall Decor Art<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<section id="about" class="section">
+  <!-- top-right: pen sticker -->
+  <div class="deco-sticker light" style="width:160px;top:2rem;right:2rem;transform:translateY(var(--pz,0px)) rotate(15deg);z-index:0;">
+    <img src="background stickers/33.png" alt="">
+  </div>
+  <!-- left center: botanical -->
+  <div class="deco-sticker light" style="width:280px;top:50%;left:-20px;transform:translateY(var(--pz,0px)) translateY(-50%) rotate(-5deg);z-index:0;">
+    <img src="background stickers/2.png" alt="">
+  </div>
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <!-- LEFT: photo — sketchbook torn paper style -->
+      <div class="about-photo-wrap reveal-left">
+        <div class="sketch-card">
+          <!-- stacked papers behind -->
+          <div class="sketch-stack sketch-stack--2"></div>
+          <div class="sketch-stack sketch-stack--1"></div>
+          <!-- main paper -->
+          <div class="sketch-card-paper">
+            <!-- torn edge top SVG -->
+            <svg class="sketch-torn sketch-torn--top" viewBox="0 0 400 18" preserveAspectRatio="none" fill="#f0ece2"><path d="M0,18 Q10,6 20,12 Q30,18 42,8 Q54,0 66,10 Q78,18 90,7 Q102,0 114,10 Q126,18 138,6 Q150,0 162,12 Q174,18 186,7 Q198,0 210,11 Q222,18 234,7 Q246,0 258,10 Q270,18 282,6 Q294,0 306,11 Q318,18 330,7 Q342,0 354,10 Q366,18 378,8 Q390,0 400,10 L400,18 Z"/></svg>
+            <!-- image drawn via canvas -->
+            <canvas class="sketch-card-img" id="profileCanvas" style="width:100%;display:block;"></canvas>
+            <!-- torn edge bottom SVG -->
+            <svg class="sketch-torn sketch-torn--bottom" viewBox="0 0 400 18" preserveAspectRatio="none" fill="#f0ece2"><path d="M0,0 Q10,12 22,6 Q34,0 46,10 Q58,18 70,8 Q82,0 94,10 Q106,18 118,8 Q130,0 142,10 Q154,18 166,6 Q178,0 190,11 Q202,18 214,8 Q226,0 238,10 Q250,18 262,8 Q274,0 286,11 Q298,18 310,6 Q322,0 334,10 Q346,18 358,8 Q370,0 382,10 Q394,18 400,8 L400,0 Z"/></svg>
+          </div>
+          <!-- name card with washi tape -->
+          <div class="sketch-name-card">
+            <div class="sketch-washi"></div>
+            <p>~ Aergul ♡ ~</p>
+            <p>Vector &amp; Line Art Artist</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: text -->
+      <div class="about-text">
+        <div class="section-label reveal delay-1">Profile</div>
+        <h2 class="section-title reveal delay-2" style="font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.2;">Delicate Florals.<br>Defined Lines.</h2>
+
+        <p class="about-bio reveal delay-3">
+          I’m a <em>freelance digital artist and graphic designer</em> specializing in vector line art, floral compositions, and precision <em>laser ready stencil illustration</em>. My work bridges <em>minimal aesthetics </em> with practical application turning creative botanical motifs and geometric patterns into production-ready digital assets, home decor mockups, and vector bundles.
+        </p>
+        <p class="about-bio reveal delay-3">
+          Every piece evolves from a loose concept into meticulous, multi-layer <em>vector artwork</em> crafted for prints, cutting files, and creative projects worldwide.
+        </p>
+
+        <!-- stats counter -->
+        <div class="stats-row reveal delay-4">
+          <div class="stat-item">
+            <span class="stat-number" data-target="120"><span class="count">0</span><span class="stat-suffix">+</span></span>
+            <span class="stat-label">Clients</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="250"><span class="count">0</span><span class="stat-suffix">+</span></span>
+            <span class="stat-label">Projects Done</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="6"><span class="count">0</span><span class="stat-suffix">+</span></span>
+            <span class="stat-label">Years Creating</span>
+          </div>
+        </div>
+
+        <div class="focus-tags reveal delay-5">
+          <!-- pen nib -->
+          <span class="focus-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+            Digital Line Art
+          </span>
+          <!-- flower -->
+          <span class="focus-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2a4 4 0 0 1 0 8 4 4 0 0 1 0-8z" opacity="0.5"/><path d="M12 14a4 4 0 0 1 0 8 4 4 0 0 1 0-8z" opacity="0.5"/><path d="M2 12a4 4 0 0 1 8 0 4 4 0 0 1-8 0z" opacity="0.5"/><path d="M14 12a4 4 0 0 1 8 0 4 4 0 0 1-8 0z" opacity="0.5"/></svg>
+            Floral &amp; Boho
+          </span>
+          <!-- scissors / laser cut -->
+          <span class="focus-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+            Laser &amp; Stencil
+          </span>
+          <!-- open book -->
+          <span class="focus-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Custom Commissions
+          </span>
+          <!-- image frame -->
+          <span class="focus-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Cover Art
+          </span>
+          <!-- tag / branding -->
+          <span class="focus-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            Branding Illustrations
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORD BAND ══ -->
+<!-- ══ GALLERY ══ -->
+<section id="gallery" class="section">
+  <!-- top-right lily branch -->
+  <div class="deco-sticker light" style="width:360px;top:-10px;right:-40px;transform:translateY(var(--pz,0px)) rotate(-5deg);">
+    <img src="background stickers/6.png" alt="">
+  </div>
+  <!-- bottom-left rose -->
+  <div class="deco-sticker light" style="width:220px;bottom:0;left:-20px;transform:translateY(var(--pz,0px)) rotate(6deg);">
+    <img src="background stickers/14.png" alt="">
+  </div>
+  <div class="section-inner">
+    <div class="gallery-intro">
+      <div>
+        <div class="section-label reveal">Gallery</div>
+        <h2 class="section-title reveal delay-1">Digital Artwork Collections.</h2>
+        <p class="gallery-subtitle-text reveal delay-2">Ready-to-use digital vector files — click any to view on store.</p>
+      </div>
+      <a href="gallery.html" class="gallery-view-all reveal delay-2">View Full Catalogue →</a>
+    </div>
+
+    <div class="gallery-carousel-root reveal delay-3">
+      <div class="gallery-track-wrap" id="galleryTrackWrap">
+        <div class="gallery-track" id="galleryTrack">
+          <a href="https://www.shutterstock.com/image-vector/ballerina-woman-vector-design-sticker-metal-2441202181" class="gallery-card" data-tilt="-2" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/1.jpg" alt="Ballerina vector design"></div>
+              <div class="gallery-caption"><span>01. Ballerina vector design.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/floral-stencil-design-wall-2525972993" class="gallery-card" data-tilt="3" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/2.jpg" alt="Floral stencil design"></div>
+              <div class="gallery-caption"><span>02. Floral stencil design.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/g/Aergul+s/sets/328132948" class="gallery-card" data-tilt="-1.5" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/3.jpg" alt="Line art design"></div>
+              <div class="gallery-caption"><span>03. Line art design.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/round-leaves-branch-border-letters-2595958289" class="gallery-card" data-tilt="2.5" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/4.jpg" alt="Round leaves border"></div>
+              <div class="gallery-caption"><span>04. Round leaves border design.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/mandala-decor-vector-design-2448735543" class="gallery-card" data-tilt="-3" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/5.jpg" alt="Mandala decor vector"></div>
+              <div class="gallery-caption"><span>05. Mandala decor vector.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/summer-beach-shells-doodles-pattern-design-2780466029" class="gallery-card" data-tilt="1.5" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/6.jpg" alt="Summer beach pattern"></div>
+              <div class="gallery-caption"><span>06. Summer beach shells pattern.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/floral-laser-cut-invitation-card-design-2754346561" class="gallery-card" data-tilt="-2" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/7.jpg" alt="Floral laser cut invitation"></div>
+              <div class="gallery-caption"><span>07. Floral laser cut card.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/boho-pattern-features-geometric-repeat-that-2433853119" class="gallery-card" data-tilt="2" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/8.jpg" alt="Boho geometric pattern"></div>
+              <div class="gallery-caption"><span>08. Boho geometric pattern.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://stock.adobe.com/stock-photo/id/779121263" class="gallery-card" data-tilt="-1" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/9.jpg" alt="Butterfly line art"></div>
+              <div class="gallery-caption"><span>09. Butterfly line art.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/g/Aergul+s/sets/328132919" class="gallery-card" data-tilt="3" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/10.jpg" alt="Boho floral pattern"></div>
+              <div class="gallery-caption"><span>10. Boho floral pattern set.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/g/Aergul+s/sets/328132996" class="gallery-card" data-tilt="-2.5" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/11.jpg" alt="Geometric stencil designs"></div>
+              <div class="gallery-caption"><span>11. Geometric stencil designs.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+          <a href="https://www.shutterstock.com/image-vector/3d-curly-floral-pattern-wooden-art-2688837923" class="gallery-card" data-tilt="1" target="_blank" rel="noopener noreferrer">
+            <div class="gallery-card-inner">
+              
+              <div class="gallery-photo"><img src="slide and gallary/12.jpg" alt="Floral wooden art"></div>
+              <div class="gallery-caption"><span>12. Floral wooden art design.</span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <button class="gallery-arrow gallery-arrow-left" id="galleryPrev" aria-label="Previous">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.75)" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="gallery-arrow gallery-arrow-right" id="galleryNext" aria-label="Next">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.75)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="gallery-dots" id="galleryDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WORD BAND 2 ══ -->
+<!-- ══ WORD BAND (after gallery) ══ -->
+<div class="word-band">
+  <div class="word-band-track reverse">
+    <span class="word-band-item">Design</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Create</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Inspire</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Craft</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Illustrate</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Floral</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Vector</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Stencil</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <!-- duplicate for seamless loop -->
+    <span class="word-band-item">Design</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Create</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Inspire</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Craft</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Illustrate</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Floral</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Vector</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+    <span class="word-band-item">Stencil</span><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(181,96,58,0.3);flex-shrink:0;margin:0 0.5rem;"></span>
+  </div>
+</div>
+
+<!-- ══ SHOP ══ -->
+<section id="shop" class="section">
+  <!-- bottom-right peony on dark -->
+  <div class="deco-sticker dark" style="width:300px;bottom:-20px;right:-20px;transform:translateY(var(--pz,0px)) rotate(8deg);">
+    <img src="background stickers/19.png" alt="">
+  </div>
+  <!-- top-left peony+dahlia on dark -->
+  <div class="deco-sticker dark" style="width:240px;top:2rem;left:-20px;transform:translateY(var(--pz,0px)) rotate(-6deg);">
+    <img src="background stickers/20.png" alt="">
+  </div>
+  <div class="section-inner">
+    <div class="section-label reveal">Shop</div>
+    <h2 class="section-title reveal delay-1" style="color:#f5edd8;">Designs you can bring home.</h2>
+    <p style="font-family:'Lora',serif;font-style:italic;font-size:0.9rem;color:rgba(245,237,216,0.55);margin:0.4rem 0 0;" class="reveal delay-2">Available across multiple platforms — from ready-made vectors to custom commissions.</p>
+
+    <div class="shop-string-bar reveal delay-2"></div>
+
+    <div class="shop-grid">
+
+      <!-- String 1: Etsy + Adobe Stock -->
+      <div class="shop-string">
+        <svg class="shop-string-rope" viewBox="0 0 8 52" preserveAspectRatio="none" fill="none">
+          <path d="M4 0 L4 52" stroke="rgba(201,150,58,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <a href="YOUR_ETSY_LINK_HERE" class="shop-tag" target="_blank" rel="noopener noreferrer">
+          <svg class="shop-doodle" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"><text x="4" y="38" font-family="Georgia,serif" font-weight="700" font-size="30" fill="#F1641E">E</text><text x="20" y="38" font-family="Georgia,serif" font-weight="700" font-size="20" fill="#F1641E">tsy</text></svg>
+          <div class="shop-tag-name">Etsy Store</div>
+          <div class="shop-tag-platform">Etsy · Digital Downloads</div>
+          <div class="shop-tag-desc">Downloadable vector designs, stencil files, and laser-cut ready artwork — available as instant digital downloads.</div>
+        </a>
+        <div class="shop-seg">
+        <svg class="shop-string-mid-rope" viewBox="0 0 8 36" preserveAspectRatio="none" fill="none">
+          <path d="M4 0 L4 36" stroke="rgba(201,150,58,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <a href="https://contributor.stock.adobe.com/en/portfolio" class="shop-tag" target="_blank" rel="noopener noreferrer">
+          <svg class="shop-doodle" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" rx="6" fill="#FF0000"/><path d="M10 40 L22 12 L34 40 H28 L22 24 L16 40 Z" fill="#fff"/><path d="M30 28 H38 L34 18 Z" fill="rgba(255,255,255,0.7)"/></svg>
+          <div class="shop-tag-name">Minimal Series</div>
+          <div class="shop-tag-platform">Adobe Stock · Illustrations</div>
+          <div class="shop-tag-desc">Clean botanical illustrations designed for editorial layouts, marketing visuals, and design projects.</div>
+        </a>
+      </div>
+      </div>
+
+      <!-- String 2: Shutterstock + Dribbble -->
+      <div class="shop-string">
+        <svg class="shop-string-rope" viewBox="0 0 8 52" preserveAspectRatio="none" fill="none">
+          <path d="M4 0 L4 52" stroke="rgba(201,150,58,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <a href="https://www.shutterstock.com/g/Aergul+s" class="shop-tag" target="_blank" rel="noopener noreferrer">
+          <svg class="shop-doodle" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" rx="8" fill="#EE2B24"/><path d="M9 22 L9 10 L21 10" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M43 30 L43 42 L31 42" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="shop-tag-name">Vector Artwork</div>
+          <div class="shop-tag-platform">Shutterstock · Illustrations</div>
+          <div class="shop-tag-desc">Minimal floral and botanical line illustrations in soft earthy tones, perfect for editorials, branding, and creative projects.</div>
+        </a>
+        <div class="shop-seg">
+        <svg class="shop-string-mid-rope" viewBox="0 0 8 36" preserveAspectRatio="none" fill="none">
+          <path d="M4 0 L4 36" stroke="rgba(201,150,58,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <a href="https://dribbble.com/Aergul_0/services" class="shop-tag" target="_blank" rel="noopener noreferrer">
+          <svg class="shop-doodle" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><circle cx="26" cy="26" r="22" fill="#EA4C89"/><circle cx="26" cy="26" r="18" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M12 16 Q20 22 24 34 Q26 40 26 44" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M8 28 Q18 24 30 26 Q38 27 44 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <div class="shop-tag-name">Stencil &amp; Line Art</div>
+          <div class="shop-tag-platform">Dribbble · Design Showcase</div>
+          <div class="shop-tag-desc">A collection of creative stencil experiments, engraving styles, and illustration explorations.</div>
+        </a>
+      </div>
+      </div>
+
+      <!-- String 3: Vecteezy + Fiverr -->
+      <div class="shop-string">
+        <svg class="shop-string-rope" viewBox="0 0 8 52" preserveAspectRatio="none" fill="none">
+          <path d="M4 0 L4 52" stroke="rgba(201,150,58,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <a href="https://www.vecteezy.com/members/118377966463197234559" class="shop-tag" target="_blank" rel="noopener noreferrer">
+          <svg class="shop-doodle" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><rect width="52" height="52" rx="10" fill="#F1641E"/><path d="M12 14 Q13 24 20 32 Q24 37 26 37 Q28 37 30 33 Q34 25 34 20 Q34 16 31 16 Q28 16 28 20 Q28 26 30 30" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="shop-tag-name">Vector Collection</div>
+          <div class="shop-tag-platform">Vecteezy · Vector Graphics</div>
+          <div class="shop-tag-desc">Elegant botanical vector designs created for branding, packaging, and decorative compositions.</div>
+        </a>
+        <div class="shop-seg">
+        <svg class="shop-string-mid-rope" viewBox="0 0 8 36" preserveAspectRatio="none" fill="none">
+          <path d="M4 0 L4 36" stroke="rgba(201,150,58,0.55)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <a href="https://www.fiverr.com/alphar3x?public_mode=true" class="shop-tag" target="_blank" rel="noopener noreferrer">
+          <svg class="shop-doodle" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg"><circle cx="26" cy="26" r="26" fill="#1DBF73"/><path d="M19 36 L19 25" stroke="#fff" stroke-width="3.8" stroke-linecap="round"/><path d="M16 29 L25 29" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><path d="M19 25 Q19 18 24 18 Q27 18 27 21" fill="none" stroke="#fff" stroke-width="3.8" stroke-linecap="round"/><path d="M29 36 L29 26" stroke="#fff" stroke-width="3.8" stroke-linecap="round"/><circle cx="29" cy="20.5" r="2.5" fill="#fff"/></svg>
+          <div class="shop-tag-name">Custom Design Work</div>
+          <div class="shop-tag-platform">Fiverr · Made for you</div>
+          <div class="shop-tag-desc">Custom floral illustrations, stencil designs, engraving artwork, and personalized creative projects.</div>
+        </a>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ LINKS ══ -->
+<section id="links" class="section">
+  <!-- top-left lily tall -->
+  <div class="deco-sticker light" style="width:160px;top:2rem;left:1rem;transform:translateY(var(--pz,0px)) rotate(-8deg);">
+    <img src="background stickers/2.png" alt="">
+  </div>
+  <!-- bottom-right rose -->
+  <div class="deco-sticker light" style="width:240px;bottom:-10px;right:-20px;transform:translateY(var(--pz,0px)) rotate(5deg);">
+    <img src="background stickers/10.png" alt="">
+  </div>
+  <div class="section-inner">
+    <div class="postcard reveal">
+      <div class="pc-msg">
+        <p class="pc-hello">Dear you,</p>
+        <h2 class="section-title">Places where my work lives.</h2>
+        <p class="pc-text">Find my illustrations across print shops, inspiration platforms, and social spaces.</p>
+        <p class="pc-text">Have a project in mind? Send me a note — custom commissions are open.</p>
+        <a href="https://www.fiverr.com/alphar3x?public_mode=true" class="pc-cta" target="_blank" rel="noopener noreferrer">Say hello</a>
+        <p class="pc-sign">— Aergul</p>
+      </div>
+      <div class="pc-addr">
+        <div class="pc-stamp" aria-hidden="true">
+          <svg viewBox="0 0 50 66" fill="none" stroke="#b5603a" stroke-width="1.6" stroke-linecap="round"><path d="M25 62V30"/><path d="M25 44c-8-1-12-6-12-12 7 0 11 5 12 12zM25 38c8-1 12-6 12-12-7 0-11 5-12 12z"/><path d="M25 30c-6-4-8-11-4-18 3 3 5 7 4 18zM25 30c6-4 8-11 4-18-3 3-5 7-4 18z"/><path d="M25 30c0-7 0-12 0-20" /></svg>
+        </div>
+        <svg class="pc-postmark" viewBox="0 0 150 70" fill="none" stroke="currentColor" aria-hidden="true">
+          <circle cx="112" cy="35" r="30" stroke-width="1.5"/><circle cx="112" cy="35" r="22" stroke-width="1"/>
+          <defs><path id="pmArc" d="M112 35m-26 0a26 26 0 1 1 52 0a26 26 0 1 1-52 0"/></defs>
+          <text font-size="7.5" letter-spacing="2.2" fill="currentColor" stroke="none" font-family="Lora, serif"><textPath href="#pmArc">AERGUL STUDIO · ONLINE ·</textPath></text>
+          <path d="M2 24q10-6 20 0t20 0t20 0M2 36q10-6 20 0t20 0t20 0M2 48q10-6 20 0t20 0t20 0" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <div class="pc-lines">
+          <a href="https://www.instagram.com/sket_vector" class="pc-line" style="--i:0" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="ig" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="10%" stop-color="#fdf497"/><stop offset="50%" stop-color="#fd5949"/><stop offset="68%" stop-color="#d6249f"/><stop offset="100%" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="5" fill="url(#ig)"/><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg> Instagram</a>
+          <a href="YOUR_ETSY_LINK_HERE" class="pc-line" style="--i:1" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#F1641E"/><text x="3" y="17" font-family="Georgia,serif" font-weight="700" font-size="13" fill="#fff">E</text></svg> Etsy</a>
+          <a href="https://ch.pinterest.com/Aergul_/" class="pc-line" style="--i:2" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#E60023"/><path d="M12 4C7.58 4 4 7.58 4 12c0 3.35 2.05 6.24 5 7.47-.07-.61-.13-1.55.03-2.22.14-.6.96-4.07.96-4.07s-.25-.49-.25-1.22c0-1.15.67-2.01 1.5-2.01.7 0 1.05.53 1.05 1.16 0 .71-.45 1.77-.69 2.75-.2.82.41 1.49 1.21 1.49 1.45 0 2.43-1.87 2.43-4.08 0-1.68-1.13-2.94-3.18-2.94-2.31 0-3.74 1.73-3.74 3.65 0 .66.19 1.13.49 1.49.13.16.15.22.1.4-.03.13-.12.45-.15.57-.05.19-.19.25-.36.18-1.02-.42-1.5-1.55-1.5-2.81 0-2.09 1.76-4.59 5.23-4.59 2.79 0 4.63 2.02 4.63 4.2 0 2.87-1.59 5.03-3.92 5.03-.74 0-1.44-.4-1.69-.85l-.46 1.78c-.16.64-.62 1.44-.91 1.92.68.21 1.41.33 2.16.33 4.42 0 8-3.58 8-8s-3.58-8-8-8z" fill="#fff"/></svg> Pinterest</a>
+          <a href="https://www.behance.net/aergulsofia" class="pc-line" style="--i:3" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="4" fill="#0057FF"/><path d="M13 8h5v1.5h-5zM6 7h4.5c1.5 0 2.5.8 2.5 2.2 0 .9-.4 1.5-1.1 1.9.9.3 1.6 1 1.6 2.2C13.5 15 12.3 16 10.5 16H6V7zm1.5 3.5h2.7c.7 0 1.1-.4 1.1-1s-.4-.9-1.1-.9H7.5v1.9zm0 3.9h3c.8 0 1.2-.4 1.2-1.1s-.5-1.1-1.2-1.1h-3v2.2zm8.5-1.9h-4c.1 1.3.9 2 2 2 .8 0 1.4-.4 1.7-1h2c-.5 1.6-1.8 2.5-3.7 2.5-2.3 0-3.8-1.6-3.8-3.7 0-2.1 1.5-3.8 3.8-3.8 2.4 0 3.8 1.8 3.8 4h-1.8z" fill="#fff"/></svg> Behance</a>
+          <a href="https://www.shutterstock.com/g/Aergul+s" class="pc-line" style="--i:4" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="3" fill="#EE2B24"/><path d="M4 10 L4 5 L9 5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 14 L20 19 L15 19" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Shutterstock</a>
+          <a href="https://www.fiverr.com/alphar3x?public_mode=true" class="pc-line" style="--i:5" target="_blank" rel="noopener noreferrer"><svg width="13" height="13" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#1DBF73"/><path d="M8 17 L8 11" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M6 13 L11 13" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><path d="M8 11 Q8 7 11 7 Q13 7 13 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M14 17 L14 12" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="9.5" r="1.3" fill="#fff"/></svg> Fiverr</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section id="notes" class="section" style="padding-bottom:5rem;">
+  <!-- bottom-left lily bouquet on dark -->
+  <div class="deco-sticker dark" style="width:280px;bottom:-10px;left:-20px;transform:translateY(var(--pz,0px)) rotate(-10deg);">
+    <img src="background stickers/17.png" alt="">
+  </div>
+  <!-- top-right roses on dark -->
+  <div class="deco-sticker dark" style="width:260px;top:2rem;right:-20px;transform:translateY(var(--pz,0px)) rotate(7deg);">
+    <img src="background stickers/3.png" alt="">
+  </div>
+  <div class="section-inner">
+    <div class="section-label reveal">Kind Words</div>
+    <h2 class="section-title reveal delay-1">What people are saying.</h2>
+
+    <div class="review-box reveal delay-2" id="reviewBox" role="region" aria-roledescription="carousel" aria-label="Client reviews">
+      <div class="review-stack" id="reviewStack">
+      <article class="r-card active" data-idx="0" aria-hidden="false">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">Working with her was such a smooth experience. She understood my idea — the detailing was so precise and elegant!</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Davia C.</span><span class="rcard-role">Laser Cut Invitation Design</span></div></div>
+      </article>
+      <article class="r-card" data-idx="1" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">Great communication throughout and the final result looked amazing. Will definitely work together again.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Will K.</span><span class="rcard-role">Wall Stencil Design</span></div></div>
+      </article>
+      <article class="r-card" data-idx="2" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">The engraving design was beautifully crafted. Every detail translated perfectly onto the material.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Maya R.</span><span class="rcard-role">Engraving Design</span></div></div>
+      </article>
+      <article class="r-card" data-idx="3" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">I sent a blurry logo and she recreated it perfectly. Very cooperative and quick with revisions too.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">James T.</span><span class="rcard-role">Logo Recreation</span></div></div>
+      </article>
+      <article class="r-card" data-idx="4" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">Super easy to work with! She delivered clean vector files and even guided me through branding. Highly professional.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Nina S.</span><span class="rcard-role">Vector Tracing for Branding</span></div></div>
+      </article>
+      <article class="r-card" data-idx="5" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">The seamless pattern was exactly what I needed for my product packaging. It tiles perfectly and looks very polished.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Kevin L.</span><span class="rcard-role">Seamless Pattern Design</span></div></div>
+      </article>
+      <article class="r-card" data-idx="6" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">Such a lovely experience! She was very responsive and the topper turned out exactly how I imagined it would.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Hira A.</span><span class="rcard-role">Custom Print Design</span></div></div>
+      </article>
+      <article class="r-card" data-idx="7" aria-hidden="true">
+        <svg class="r-card-pin" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="7" r="5.4" fill="#b5603a"/><circle cx="9" cy="5.3" r="1.6" fill="rgba(255,255,255,0.55)"/><path d="M11 12 L11 21" stroke="#8a4a2c" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span class="rcard-mark">&quot;</span>
+        <p class="rcard-text">Files were delivered perfectly formatted and ready to use. Saved me so much time — truly professional work.</p>
+        <div class="rcard-footer"><div class="rcard-line"></div><div><span class="rcard-name">Tom A.</span><span class="rcard-role">Vector &amp; Engraving File Prep</span></div></div>
+      </article>
+      </div>
+      <div class="review-controls">
+        <button class="review-arrow" id="reviewPrev" aria-label="Previous review">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="review-count"><span id="reviewCounter">1</span> / 8</div>
+        <button class="review-arrow" id="reviewNext" aria-label="Next review">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<!-- ══ FOOTER ══ -->
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; <span id="year"></span> Aergul Studio — all rights reserved</span>
+    <span class="footer-copy">crafted with precision &amp; soft aesthetics <span class="footer-heart">♡</span></span>
+  </div>
+</footer>
+
+<!-- ══ MOBILE BOTTOM NAV ══ -->
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mobile-nav-pill">
+    <button class="mobile-nav-btn" data-target="#about" aria-label="Profile">
+      <img src="icons/profile.png" alt=""><span>Profile</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="#gallery" aria-label="Gallery">
+      <img src="icons/gallery.png" alt=""><span>Gallery</span>
+    </button>
+    <button class="mobile-nav-btn mobile-nav-home-btn active" data-target="#hero" aria-label="Home">
+      <img src="icons/main.png" alt=""><span>Home</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="#shop" aria-label="Shop">
+      <img src="icons/shop.png" alt=""><span>Shop</span>
+    </button>
+    <button class="mobile-nav-btn" data-target="#notes" aria-label="Reviews">
+      <img src="icons/kind words.png" alt=""><span>Words</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// ── Loading screen: brief, with faint corner/side stickers ──
+(function() {
+  const screen = document.getElementById('loadingScreen');
+  if (!screen) return;
+  document.documentElement.style.overflow = 'hidden';
+
+  const stickers = Array.from(screen.querySelectorAll('.loader-sticker'));
+  stickers.forEach((s, i) => setTimeout(() => s.classList.add('show'), 120 + i * 90));
+
+  const MIN_VISIBLE = 3200;  // always show the loader for ~3–3.5s
+  const MAX_VISIBLE = 3600;  // never block longer than this, even on slow loads
+  const start = Date.now();
+
+  function hideLoader() {
+    const elapsed = Date.now() - start;
+    const wait = Math.max(0, MIN_VISIBLE - elapsed);
+    setTimeout(() => {
+      screen.classList.add('is-hidden');
+      document.documentElement.style.overflow = '';
+      setTimeout(() => screen.remove(), 700);
+    }, wait);
+  }
+
+  window.addEventListener('load', hideLoader, { once: true });
+  setTimeout(hideLoader, MAX_VISIBLE); // safety net
+})();
+
+// ── Contact section sliding over Shop — smooth, scroll-position-linked,
+//     identical feel scrolling down or back up ──
+(function() {
+  const shop = document.getElementById('shop');
+  const links = document.getElementById('links');
+  if (!links || !shop) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  let ticking = false;
+
+  function render() {
+    ticking = false;
+    const vh = window.innerHeight;
+    const rect = links.getBoundingClientRect();
+
+    // progress 0 → links top sitting at the bottom of the viewport
+    // progress 1 → links top has risen to ~42% of the viewport height
+    const start = vh;
+    const end = vh * 0.42;
+    let progress = (start - rect.top) / (start - end);
+    progress = Math.max(0, Math.min(1, progress));
+
+    const scale = 1 - (0.035 * progress);
+    const brightness = 1 - (0.18 * progress);
+    const blur = (0.5 * progress).toFixed(2);
+    shop.style.transform = `scale(${scale})`;
+    shop.style.filter = `brightness(${brightness}) blur(${blur}px)`;
+
+    const translateY = (9 * (1 - progress)).toFixed(2);
+    links.style.transform = `translateY(${translateY}%)`;
+    links.style.opacity = progress;
+    links.style.boxShadow = `0 -18px 60px rgba(26,18,8,${(0.16 * progress).toFixed(3)})`;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(render);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  render();
+})();
+
+// ── Profile canvas diagonal stroke reveal ──
+(function() {
+  const canvas = document.getElementById('profileCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.decoding = 'async';
+  img.fetchPriority = 'high';
+  img.src = 'icons/profilepic 1.png';
+
+  img.onload = function() {
+    canvas.width  = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Fill with paper color
+    ctx.fillStyle = '#f0ece2';
+    ctx.fillRect(0, 0, W, H);
+
+    const duration = 1100;
+    let startTime = null;
+
+    function ease(t) {
+      // ease-in-out cubic
+      return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    }
+
+    function draw(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const t = ease(Math.min((timestamp - startTime) / duration, 1));
+
+      // The diagonal line sweeps from top-left to bottom-right
+      // At t=0: line is at top-left corner; at t=1: line is past bottom-right
+      // Points on the diagonal: (W+H)*t defines how far along
+      const sweep = (W + H) * t;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Paper background
+      ctx.fillStyle = '#f0ece2';
+      ctx.fillRect(0, 0, W, H);
+
+      // Clip to polygon left of the sweeping diagonal
+      ctx.save();
+      ctx.beginPath();
+      // Triangle/polygon that grows from top-left
+      ctx.moveTo(0, 0);
+      if (sweep <= W) {
+        ctx.lineTo(sweep, 0);
+        ctx.lineTo(0, sweep);
+      } else {
+        ctx.lineTo(W, 0);
+        ctx.lineTo(W, sweep - W);
+        ctx.lineTo(sweep - H, H);
+        ctx.lineTo(0, H);
+      }
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, 0, 0, W, H);
+      ctx.restore();
+
+      // Soft feathered edge along the diagonal
+      const gx1 = Math.max(0, Math.min(W, sweep - 60));
+      const gy1 = 0;
+      const gx2 = Math.max(0, Math.min(W, sweep));
+      const gy2 = Math.min(H, sweep);
+      if (gx2 > gx1 || gy2 > gy1) {
+        const grad = ctx.createLinearGradient(gx1, gy1, gx2, gy2);
+        grad.addColorStop(0, 'rgba(240,236,226,0)');
+        grad.addColorStop(1, 'rgba(240,236,226,0.85)');
+        ctx.save();
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+      }
+
+      if (t < 1) requestAnimationFrame(draw);
+    }
+
+    const card = document.querySelector('.sketch-card');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(() => requestAnimationFrame(draw), 300);
+          obs.unobserve(card);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(card);
+  };
+})();
+
+
+
+
+
+
+// ── Year ──
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ── Feather icons ──
+feather.replace();
+
+// ── Topbar: transparent over hero, solid after ──
+(function() {
+  const topbar = document.getElementById('topbar');
+  function update() {
+    topbar.classList.toggle('solid', window.scrollY > 60);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
+// ── Scroll hint hide + mobile nav hide on hero ──
+(function() {
+  const hint = document.getElementById('heroScroll');
+  const nav  = document.getElementById('mobileNav');
+  const hero = document.getElementById('hero');
+  if (!hint || !nav || !hero) return;
+  function update() {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    const pastHero = heroBottom < 80;
+    hint.classList.toggle('hidden', window.scrollY > 80);
+    nav.classList.toggle('hidden-on-hero', !pastHero);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update(); // run on load
+})();
+
+// ── Smooth scroll helper ──
+function smoothScrollTo(targetY) {
+  const maxY = document.documentElement.scrollHeight - window.innerHeight;
+  const y = Math.max(0, Math.min(targetY, maxY));
+  const start = window.scrollY;
+  const distance = y - start;
+  if (Math.abs(distance) < 2) return;
+  const duration = 750;
+  let startTime = null;
+  function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    const progress = Math.min((ts - startTime) / duration, 1);
+    window.scrollTo(0, start + distance * ease(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function doScroll(target) {
+  if (target === '#hero') { smoothScrollTo(0); return; }
+  const el = document.querySelector(target);
+  if (!el) return;
+  requestAnimationFrame(() => {
+    const topH = document.getElementById('topbar')?.offsetHeight || 0;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    smoothScrollTo(top - topH - 12);
+  });
+}
+
+// ── Nav click handlers ──
+document.querySelectorAll('[data-target]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const t = btn.getAttribute('data-target');
+    if (t) doScroll(t);
+  });
+});
+
+// ── Active nav via IntersectionObserver ──
+const sections = document.querySelectorAll('#hero, #about, #gallery, #shop, #links, #notes');
+const sidebarBtns = document.querySelectorAll('.sidebar-dot-link');
+const mobileNavBtns = document.querySelectorAll('.mobile-nav-btn');
+
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = '#' + e.target.id;
+      sidebarBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-target') === id));
+      mobileNavBtns.forEach(b => b.classList.toggle('active', b.getAttribute('data-target') === id));
+    }
+  });
+}, { threshold: 0.25, rootMargin: '-10% 0px -10% 0px' });
+sections.forEach(s => navObs.observe(s));
+
+// ── Reveal on scroll ──
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revObs.observe(el));
+
+// ── Parallax on the background stickers: they drift slower than the page as you scroll ──
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const items = Array.from(document.querySelectorAll('.deco-sticker')).filter(el => {
+    return getComputedStyle(el).position !== 'fixed'; // leave pinned stickers alone
+  }).map(el => ({ el, depth: 0.7 + Math.random() * 0.5 }));
+  if (!items.length) return;
+
+  let ticking = false;
+  function update() {
+    const small = window.innerWidth <= 768;
+    const strength = small ? 0.035 : 0.08;
+    const vh = window.innerHeight;
+    items.forEach(it => {
+      const r = it.el.getBoundingClientRect();
+      const center = r.top + r.height / 2 - vh / 2;
+      it.el.style.setProperty('--pz', (-center * strength * it.depth).toFixed(1) + 'px');
+    });
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+
+// ── Shop strings: pendulum physics, drifting wind, scroll gusts ──
+(function () {
+  const grid = document.querySelector('.shop-grid');
+  const strings = Array.from(document.querySelectorAll('.shop-string'));
+  if (!grid || !strings.length) return;
+
+  // reduced motion: show everything, no swaying
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    strings.forEach(el => { el.style.opacity = 1; });
+    return;
+  }
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+  // tweak these to taste
+  const WIND_UPPER = 1.5;   // how hard the breeze pushes the whole string
+  const WIND_LOWER = 2.0;   // ...and the lower card (swings a bit more)
+  const LAG        = 0.8;   // how much the lower card trails behind the upper one
+  const INTRO_SEC  = 1.3;   // drop-in duration
+  const STAGGER    = 0.16;  // delay between strings
+
+  const S = strings.map((el, i) => ({
+    el,
+    seg: el.querySelector('.shop-seg'),
+    cards: el.querySelectorAll('.shop-tag'),
+    a: -4 - i * 0.6, av: 0,            // upper pendulum: angle (deg), velocity (deg/s)
+    b: 3, bv: 0,                       // lower pendulum, relative to the upper one
+    w1: 2 * Math.PI / (5.2 + i * 0.5), // each string has its own natural rhythm
+    w2: 2 * Math.PI / (3.6 + i * 0.35),
+    z1: 0.16, z2: 0.2,                 // damping (higher = settles faster)
+    x: i * 1.9,                        // position along the row, so gusts travel across
+    delay: i * STAGGER,
+    done: false
+  }));
+
+  // gentle breeze: steady lean + slow drifting gusts, phase-shifted per string
+  const wind = (t, x) => {
+    const gust = 0.55 + 0.45 * Math.pow(Math.sin(t * 0.21 + 0.6), 2);
+    return gust * (0.45 + 0.62 * Math.sin(t * 0.62 + x)
+                        + 0.28 * Math.sin(t * 1.37 + x * 1.7 + 1.3)
+                        + 0.10 * Math.sin(t * 2.9  + x * 2.3));
+  };
+
+  // a mouse brushing past nudges the strings
+  grid.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const push = clamp(e.movementX, -40, 40);
+    S.forEach(s => {
+      const r = s.el.getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return;
+      s.av = clamp(s.av + push * 0.12, -14, 14);
+      s.bv = clamp(s.bv + push * 0.08, -14, 14);
+    });
+  }, { passive: true });
+
+  let T = 0, last = 0, running = false, lastY = window.scrollY, scrollV = 0;
+
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min((now - last) / 1000, 1 / 20);
+    last = now;
+    T += dt;
+
+    // scrolling stirs the air a little
+    const y = window.scrollY;
+    scrollV = scrollV * 0.9 + clamp(y - lastY, -60, 60) * 0.1;
+    lastY = y;
+
+    const steps = Math.ceil(dt / (1 / 120)) || 1, h = dt / steps;
+
+    S.forEach((s, i) => {
+      const p = clamp((T - s.delay) / INTRO_SEC, 0, 1);
+      if (T >= s.delay) {
+        const scrollF = scrollV * 0.12 * Math.sin(i * 2.1 + 1);
+        for (let k = 0; k < steps; k++) {
+          const t = T - dt + (k + 1) * h;
+          const accA = -s.w1 * s.w1 * s.a - 2 * s.z1 * s.w1 * s.av + WIND_UPPER * wind(t, s.x) + scrollF;
+          s.av += accA * h; s.a += s.av * h;
+          const accB = -s.w2 * s.w2 * s.b - 2 * s.z2 * s.w2 * s.bv + WIND_LOWER * wind(t - 0.35, s.x + 0.5) - LAG * accA;
+          s.bv += accB * h; s.b += s.bv * h;
+        }
+      }
+      s.a = clamp(s.a, -8, 8); s.b = clamp(s.b, -8, 8);
+
+      const drop = -(1 - easeOut(p)) * 90;
+      s.el.style.opacity = p >= 1 ? 1 : clamp(p * 2.2, 0, 1);
+      s.el.style.transform = 'translate3d(0,' + drop.toFixed(2) + 'px,0) rotate(' + s.a.toFixed(3) + 'deg)';
+      if (s.seg) s.seg.style.transform = 'rotate(' + s.b.toFixed(3) + 'deg)';
+
+      // paper turns slightly as it swings (depth)
+      const f1 = clamp(s.av * 0.35, -5, 5), f2 = clamp((s.av + s.bv) * 0.4, -5, 5);
+      if (s.cards[0]) s.cards[0].style.transform = 'perspective(900px) rotateY(' + f1.toFixed(2) + 'deg)';
+      if (s.cards[1]) s.cards[1].style.transform = 'perspective(900px) rotateY(' + f2.toFixed(2) + 'deg)';
+    });
+    requestAnimationFrame(frame);
+  }
+
+  // only animate while the shop is on screen
+  new IntersectionObserver(entries => {
+    const on = entries[0].isIntersecting;
+    if (on && !running) { running = true; last = performance.now(); lastY = window.scrollY; requestAnimationFrame(frame); }
+    else if (!on) running = false;
+  }, { threshold: 0.05, rootMargin: '150px 0px' }).observe(grid);
+})();
+</script>
+
+<script>
+// ── Hero slideshow ──
+(function() {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('#heroDots .hero-dot');
+  let cur = 0, timer;
+  function show(i) {
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (i + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }
+  function next() { show(cur + 1); }
+  timer = setInterval(next, 5500);
+  dots.forEach((d, i) => d.addEventListener('click', () => { clearInterval(timer); show(i); timer = setInterval(next, 5500); }));
+})();
+</script>
+
+<script>
+(function() {
+  const items = document.querySelectorAll('.stat-number[data-target]');
+  let done = false;
+  const obs = new IntersectionObserver(entries => {
+    if (done) return;
+    const visible = entries.some(e => e.isIntersecting);
+    if (!visible) return;
+    done = true;
+    obs.disconnect();
+    items.forEach(el => {
+      const target = parseInt(el.getAttribute('data-target'));
+      const countEl = el.querySelector('.count');
+      const duration = 1800;
+      const start = performance.now();
+      function update(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        countEl.textContent = Math.floor(ease * target);
+        if (t < 1) requestAnimationFrame(update);
+        else countEl.textContent = target;
+      }
+      requestAnimationFrame(update);
+    });
+  }, { threshold: 0.5 });
+  items.forEach(el => obs.observe(el));
+})();
+</script>
+
+<script>
+// ── Scroll progress bar ──
+(function() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / total * 100) + '%';
+  }, { passive: true });
+})();
+
+// ── Page fade transition ──
+(function() {
+  const fade = document.getElementById('pageFade');
+  if (!fade) return;
+
+  // Fade in on load (arriving from gallery)
+  fade.classList.add('visible');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fade.style.transition = 'opacity 0.5s ease';
+      fade.classList.remove('visible');
+    });
+  });
+
+  // Fade out before leaving to gallery
+  document.querySelectorAll('a[href="gallery.html"], a[href*="gallery.html"]').forEach(link => {
+    if (link.target === '_blank') return;
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const dest = this.href;
+      fade.style.transition = 'opacity 0.4s ease';
+      fade.classList.add('visible');
+      setTimeout(() => { window.location.href = dest; }, 420);
+    });
+  });
+})();
+
+// ══════════════════════════════
+// FEATURE 4: CURSOR PETAL TRAIL
+// ══════════════════════════════
+(function() {
+  if (window.innerWidth <= 768) return;
+  const container = document.getElementById('petalContainer');
+  if (!container) return;
+
+  const petalShapes = [
+    `<path d="M7 1 C9 4 13 5 13 7 C13 10 10 13 7 13 C4 13 1 10 1 7 C1 5 5 4 7 1Z" fill="rgba(242,210,220,0.85)" stroke="rgba(181,96,58,0.3)" stroke-width="0.5"/>`,
+    `<path d="M7 1 L8.5 6 L14 6 L9.5 9 L11 14 L7 11 L3 14 L4.5 9 L0 6 L5.5 6 Z" fill="rgba(201,150,58,0.6)" stroke="none"/>`,
+    `<path d="M7 2 C7 2 2 5 2 9 C2 12 4.5 14 7 14 C9.5 14 12 12 12 9 C12 5 7 2 7 2Z" fill="none" stroke="rgba(122,158,126,0.7)" stroke-width="1"/>`
+  ];
+
+  let lastX = 0, lastY = 0, lastTime = 0;
+  document.addEventListener('mousemove', e => {
+    const now = Date.now();
+    if (now - lastTime < 60) return; // throttle
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if (Math.abs(dx) + Math.abs(dy) < 8) return;
+    lastX = e.clientX; lastY = e.clientY; lastTime = now;
+
+    const petal = document.createElement('div');
+    petal.className = 'cursor-petal';
+    petal.style.left = e.clientX + (Math.random() * 16 - 8) + 'px';
+    petal.style.top  = e.clientY + (Math.random() * 16 - 8) + 'px';
+    petal.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14">${petalShapes[Math.floor(Math.random() * petalShapes.length)]}</svg>`;
+    container.appendChild(petal);
+    setTimeout(() => petal.remove(), 900);
+  });
+})();
+</script>
+
+<script>
+// ── Reviews: index-card flip carousel ──
+(function() {
+  const box = document.getElementById('reviewBox');
+  const stack = document.getElementById('reviewStack');
+  const prevBtn = document.getElementById('reviewPrev');
+  const nextBtn = document.getElementById('reviewNext');
+  const counter = document.getElementById('reviewCounter');
+  if (!box || !stack) return;
+
+  const cards = Array.from(stack.querySelectorAll('.r-card'));
+  const N = cards.length;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = 0, animating = false, autoTimer = null;
+
+  // size the box to the tallest card so shorter quotes don't leave a gap
+  function sizeStack() {
+    let max = 0;
+    cards.forEach(c => {
+      const prev = c.style.cssText;
+      c.style.cssText = 'position:relative;opacity:1;visibility:hidden;pointer-events:none;';
+      max = Math.max(max, c.offsetHeight);
+      c.style.cssText = prev;
+    });
+    stack.style.minHeight = max + 'px';
+  }
+
+  // corner-stack choreography: forward tosses the current card to the
+  // top-right corner while the next one arrives from the lower left;
+  // going back mirrors it exactly, so it reads as pulling a card back off the stack
+  function poses() {
+    const small = window.matchMedia('(max-width: 640px)').matches;
+    return {
+      toCorner: small ? { x: '58%', y: '-46%', r: 7, s: 0.58 } : { x: '72%', y: '-60%', r: 9, s: 0.48 },
+      fromLeft: small ? { x: '-54%', y: '20%', r: -6, s: 0.9 } : { x: '-68%', y: '24%', r: -8, s: 0.86 }
+    };
+  }
+  const T = p => `translate(${p.x}, ${p.y}) rotate(${p.r}deg) scale(${p.s})`;
+
+  function goTo(idx, dir) {
+    if (animating || idx === current) return;
+    animating = true;
+    const cur = cards[current], next = cards[(idx + N) % N];
+    const nextIdx = (idx + N) % N;
+    const { toCorner, fromLeft } = poses();
+
+    if (reduced) {
+      cur.classList.remove('active'); cur.setAttribute('aria-hidden', 'true');
+      next.classList.add('active'); next.setAttribute('aria-hidden', 'false');
+      current = nextIdx; counter.textContent = current + 1; animating = false;
+      return;
+    }
+
+    // forward: current card exits to the corner, next arrives from the lower left
+    // backward: current card exits to the lower left, next arrives from the corner
+    const exitPose = dir > 0 ? toCorner : fromLeft;
+    const enterPose = dir > 0 ? fromLeft : toCorner;
+
+    next.style.transition = 'none';
+    next.style.position = 'absolute';
+    next.style.opacity = '0';
+    next.style.zIndex = '3';
+    next.style.transform = T(enterPose);
+    next.style.pointerEvents = 'none';
+    cur.style.zIndex = '1';
+    void next.offsetWidth;
+    next.style.transition = '';
+
+    requestAnimationFrame(() => {
+      cur.style.transform = T(exitPose);
+      cur.style.opacity = '0';
+      next.style.transform = 'translate(0,0) rotate(0deg) scale(1)';
+      next.style.opacity = '1';
+    });
+
+    setTimeout(() => {
+      cur.classList.remove('active'); cur.setAttribute('aria-hidden', 'true');
+      cur.style.position = ''; cur.style.transform = ''; cur.style.opacity = ''; cur.style.pointerEvents = ''; cur.style.zIndex = '';
+      next.classList.add('active'); next.setAttribute('aria-hidden', 'false');
+      next.style.position = 'relative'; next.style.pointerEvents = ''; next.style.zIndex = '';
+      current = nextIdx; counter.textContent = current + 1;
+      animating = false;
+    }, 560);
+  }
+
+  function next() { goTo(current + 1, 1); }
+  function prev() { goTo(current - 1, -1); }
+
+  function startAuto() {
+    if (reduced) return;
+    stopAuto();
+    autoTimer = setInterval(next, 5500);
+  }
+  function stopAuto() { if (autoTimer) clearInterval(autoTimer); autoTimer = null; }
+
+  nextBtn.addEventListener('click', () => { next(); startAuto(); });
+  prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+  box.addEventListener('mouseenter', stopAuto);
+  box.addEventListener('mouseleave', startAuto);
+  box.addEventListener('focusin', stopAuto);
+  box.addEventListener('focusout', startAuto);
+
+  // swipe
+  let sx = 0, dragging = false;
+  stack.addEventListener('touchstart', e => { dragging = true; sx = e.touches[0].clientX; stopAuto(); }, { passive: true });
+  stack.addEventListener('touchend', e => {
+    if (!dragging) return; dragging = false;
+    const d = e.changedTouches[0].clientX - sx;
+    if (Math.abs(d) > 40) d < 0 ? next() : prev();
+    startAuto();
+  });
+
+  function boot() {
+    sizeStack();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting) { startAuto(); obs.disconnect(); }
+    }, { threshold: 0.3 }).observe(box);
+  }
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', boot) : boot();
+  window.addEventListener('resize', sizeStack);
+})();
+</script>
+<script>
+// ── Gallery carousel ──
+(function() {
+  function init() {
+    const track = document.getElementById('galleryTrack');
+    const trackWrap = document.getElementById('galleryTrackWrap');
+    const prevBtn = document.getElementById('galleryPrev');
+    const nextBtn = document.getElementById('galleryNext');
+    const dotsWrap = document.getElementById('galleryDots');
+    if (!track || !trackWrap) return;
+
+    const originalCards = Array.from(document.querySelectorAll('.gallery-card'));
+    const CARD_COUNT = originalCards.length;
+    const cardData = originalCards.map(c => ({ html: c.outerHTML, tilt: c.getAttribute('data-tilt') || '0' }));
+    const BUFFER = 3;
+    const lastN  = cardData.slice(-BUFFER).map(d => d.html);
+    const firstN = cardData.slice(0, BUFFER).map(d => d.html);
+    track.innerHTML = [...lastN, ...cardData.map(d => d.html), ...firstN].join('');
+    const allCards = Array.from(track.querySelectorAll('.gallery-card'));
+
+    allCards.forEach((card, idx) => {
+      const orig = idx < BUFFER ? CARD_COUNT - BUFFER + idx : idx >= CARD_COUNT + BUFFER ? idx - (CARD_COUNT + BUFFER) : idx - BUFFER;
+      card.setAttribute('data-original-idx', orig);
+      card.style.setProperty('--tilt', cardData[orig].tilt + 'deg');
+    });
+
+    let currentIdx = BUFFER, isAnim = false;
+
+    for (let i = 0; i < CARD_COUNT; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => {
+        if (isAnim) return;
+        for (let j = BUFFER; j < CARD_COUNT + BUFFER; j++) {
+          if (parseInt(allCards[j].getAttribute('data-original-idx')) === i) { goTo(j); break; }
+        }
+      });
+      dotsWrap.appendChild(dot);
+    }
+
+    function getOffset(idx) {
+      const wrapW = trackWrap.offsetWidth;
+      const cardW = allCards[0]?.offsetWidth || 260;
+      const gap = 24;
+      const center = (idx * (cardW + gap) + cardW / 2 + (idx + 1) * (cardW + gap) + cardW / 2) / 2;
+      return wrapW / 2 - center;
+    }
+
+    function updateUI(idx) {
+      const orig = parseInt(allCards[idx].getAttribute('data-original-idx'));
+      dotsWrap.querySelectorAll('.gallery-dot').forEach((d, i) => d.classList.toggle('active', i === orig));
+      allCards.forEach((c, i) => c.classList.toggle('is-side', i !== idx && i !== idx + 1));
+    }
+
+    function goTo(idx, instant = false) {
+      if (isAnim && !instant) return;
+      track.style.transition = instant ? 'none' : 'transform 0.55s cubic-bezier(0.4,0,0.2,1)';
+      track.style.transform = `translateX(${getOffset(idx)}px)`;
+      currentIdx = idx;
+      updateUI(currentIdx);
+      if (!instant) {
+        isAnim = true;
+        setTimeout(() => {
+          if (currentIdx >= CARD_COUNT + BUFFER) {
+            const jump = currentIdx - CARD_COUNT;
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${getOffset(jump)}px)`;
+            track.offsetHeight;
+            currentIdx = jump; updateUI(currentIdx);
+          } else if (currentIdx < BUFFER) {
+            const jump = currentIdx + CARD_COUNT;
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${getOffset(jump)}px)`;
+            track.offsetHeight;
+            currentIdx = jump; updateUI(currentIdx);
+          }
+          isAnim = false;
+        }, 570);
+      }
+    }
+
+    prevBtn.addEventListener('click', () => { if (!isAnim) goTo(currentIdx - 1); });
+    nextBtn.addEventListener('click', () => { if (!isAnim) goTo(currentIdx + 1); });
+
+    // drag/swipe — with a slight lean toward the drag direction, like flipping through a stack
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const clampLean = (v, a, b) => Math.max(a, Math.min(b, v));
+    trackWrap.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+    trackWrap.style.transformOrigin = 'center center';
+    function setLean(px) {
+      if (reducedMotion) return;
+      trackWrap.style.setProperty('--lean', clampLean(px / 55, -2.4, 2.4) + 'deg');
+    }
+    let startX = 0, isDrag = false, dragStart = 0;
+    const cw = () => (allCards[0]?.offsetWidth || 260) + 24;
+    track.addEventListener('mousedown', e => { isDrag = true; startX = e.clientX; dragStart = currentIdx; track.style.cursor = 'grabbing'; trackWrap.style.transition = 'none'; e.preventDefault(); });
+    track.addEventListener('touchstart', e => { isDrag = true; startX = e.touches[0].clientX; dragStart = currentIdx; trackWrap.style.transition = 'none'; }, { passive: true });
+    window.addEventListener('mousemove', e => { if (!isDrag) return; track.style.transition = 'none'; track.style.transform = `translateX(${getOffset(dragStart - (e.clientX - startX) / cw())}px)`; setLean(e.clientX - startX); });
+    track.addEventListener('touchmove', e => { if (!isDrag) return; setLean(e.touches[0].clientX - startX); }, { passive: true });
+    function endDrag(cx) {
+      if (!isDrag) return; isDrag = false; track.style.cursor = 'grab';
+      trackWrap.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+      trackWrap.style.setProperty('--lean', '0deg');
+      const delta = cx - startX;
+      goTo(Math.abs(delta) > cw() / 2.5 ? (delta < 0 ? currentIdx + 1 : currentIdx - 1) : currentIdx);
+    }
+    window.addEventListener('mouseup', e => endDrag(e.clientX));
+    window.addEventListener('touchend', e => endDrag(e.changedTouches[0].clientX));
+    track.style.cursor = 'grab';
+    goTo(BUFFER, true);
+    window.addEventListener('resize', () => goTo(currentIdx, true));
+  }
+
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
+})();
+</script>
+<!-- ══ SCROLL PROGRESS BAR ══ -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ══ PAGE FADE TRANSITION ══ -->
+<div class="page-fade" id="pageFade"></div>
+
+
+
+<!-- ══ CURSOR PETAL TRAIL CONTAINER ══ -->
+<div id="petalContainer"></div>
+
+</body>
+</html>

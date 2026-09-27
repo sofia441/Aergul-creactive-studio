@@ -1,0 +1,993 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gallery & Catalogue — Aergul Creative Studio</title>
+  <meta name="description" content="Browse the full design catalogue of Aergul Creative Studio — vector art, floral line art, stencil designs, and laser-cut files.">
+  <meta name="author" content="Aergul">
+  <meta property="og:title" content="Gallery — Aergul Creative Studio">
+  <meta property="og:image" content="icons/profilepic 1.jpg">
+  <link rel="icon" type="image/png" href="icons/logo top 2.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Lovers+Quarrel&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family: 'Geraldine'; src: url('fonts/GERALDINE.ttf') format('truetype'); }
+    @font-face { font-family: 'Mastrih'; src: url('fonts/Mastrih.otf') format('opentype'); }
+    @font-face { font-family: 'Rindeya'; src: url('fonts/Rindeya.ttf') format('truetype'); }
+
+    :root {
+      --bg: #f5edd8;
+      --paper: #fdf8ee;
+      --ink: #3a2e24;
+      --ink-soft: rgba(58,46,36,0.6);
+      --accent1: #b5603a;
+      --accent2: #7a9e7e;
+      --accent3: #c9963a;
+      --dark: #1a1208;
+      --dark2: #2a1f14;
+      --gold: #c9963a;
+      --tape: rgba(210,185,140,0.55);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, serif;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { display: none; }
+    html, body { -ms-overflow-style: none; scrollbar-width: none; }
+    .scroll-progress { position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--accent1),var(--gold));z-index:9999;pointer-events:none;transition:width 0.1s linear; }
+    /* ══ PAGE TRANSITION ══ */
+    .page-fade { position:fixed;inset:0;z-index:9998;background:var(--bg);opacity:0;pointer-events:none;transition:opacity 0.4s ease; }
+    .page-fade.visible { opacity:1;pointer-events:all; }
+
+    /* ══ BOTANICAL SPRIGS ══ */
+    .botanical-sprig { position:fixed;pointer-events:none;z-index:2;will-change:transform;opacity:0.1; }
+    @media (max-width:768px) { .botanical-sprig { display:none; } }
+
+    /* ══ LINE-DRAW HOVER ══ */
+    .cat-card .draw-overlay { position:absolute;inset:0;z-index:10;pointer-events:none;opacity:0;transition:opacity 0.3s ease; }
+    .cat-card:hover .draw-overlay { opacity:1; }
+    .draw-overlay svg { position:absolute;inset:0;width:100%;height:100%; }
+    .draw-path { fill:none;stroke:rgba(201,150,58,0.8);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:800;stroke-dashoffset:800; }
+    .cat-card:hover .draw-path { animation:drawStroke 1.2s cubic-bezier(0.4,0,0.2,1) forwards; }
+    @keyframes drawStroke { to { stroke-dashoffset:0; } }
+
+    /* ══ CURSOR PETAL TRAIL ══ */
+    .cursor-petal { position:fixed;pointer-events:none;z-index:9997;width:14px;height:14px;transform:translate(-50%,-50%);animation:petalFade 0.9s ease-out forwards; }
+    @keyframes petalFade { 0%{opacity:0.75;transform:translate(-50%,-50%) scale(1) rotate(0deg);} 100%{opacity:0;transform:translate(-50%,calc(-50% - 28px)) scale(0.3) rotate(120deg);} }
+    @media (max-width:768px) { .cursor-petal { display:none; } }
+
+    /* ══ STICKERS ══ */
+    .deco-sticker {
+      position: absolute; pointer-events: none; user-select: none; z-index: 0;
+    }
+    .deco-sticker img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .deco-sticker.light {
+      opacity: 0.07;
+      filter: sepia(1) saturate(0.8) hue-rotate(340deg) brightness(0.4);
+    }
+    .deco-sticker.dark {
+      opacity: 0.12;
+      filter: invert(1) sepia(1) saturate(0.5) hue-rotate(340deg) brightness(1.4);
+    }
+    @media (max-width: 768px) { .deco-sticker { width: 100px !important; opacity: 0.05 !important; } }
+
+    ::selection { background: rgba(201,150,58,0.25); color: var(--ink); }
+
+    /* paper texture */
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply; opacity: 0.5;
+    }
+
+    /* ══ TOPBAR ══ */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 2rem;
+      background: transparent;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .topbar.solid {
+      background: rgba(245,237,216,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom-color: rgba(58,46,36,0.1);
+    }
+    .topbar-logo img {
+      height: 52px; width: auto; object-fit: contain;
+      transition: opacity 0.4s ease;
+    }
+    .topbar-nav { display: flex; align-items: center; gap: 1.8rem; }
+    .topbar-nav a {
+      font-family: 'Caveat', cursive; font-size: 1rem;
+      letter-spacing: 0.08em; color: rgba(245,237,216,0.8);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .topbar-nav a:hover { color: #fff; }
+    .topbar-nav a.active { color: rgba(245,237,216,1); }
+    .topbar.solid .topbar-nav a { color: var(--ink-soft); }
+    .topbar.solid .topbar-nav a:hover, .topbar.solid .topbar-nav a.active { color: var(--accent1); }
+    .topbar-cta {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      border: 1px solid rgba(245,237,216,0.55); border-radius: 999px;
+      padding: 0.42rem 1.1rem;
+      font-family: 'Caveat', cursive; font-size: 0.98rem; letter-spacing: 0.05em;
+      text-decoration: none; color: rgba(245,237,216,0.9);
+      transition: all 0.25s ease; white-space: nowrap;
+    }
+    .topbar-cta:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.75); color: #fff; }
+    .topbar.solid .topbar-cta { border-color: rgba(58,46,36,0.35); color: var(--ink); }
+    .topbar.solid .topbar-cta:hover { background: rgba(181,96,58,0.08); border-color: var(--accent1); }
+
+    /* ══ HERO BANNER ══ */
+    .gallery-hero {
+      background: linear-gradient(160deg, #1a1208 0%, #2a1f14 55%, #3a2b1e 100%);
+      padding: 9rem 3rem 5rem;
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .gallery-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 25% 80%, rgba(181,96,58,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 20%, rgba(122,158,126,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .gallery-hero-ghost {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Geraldine', 'Cormorant Garamond', serif;
+      font-size: clamp(8rem, 18vw, 18rem);
+      line-height: 1; letter-spacing: 0.04em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(245,237,216,0.06);
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+    .gallery-hero-label {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: 'Caveat', cursive;
+      font-size: 0.82rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(201,150,58,0.75); margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+    .gallery-hero-label::before {
+      content: ''; display: block; width: 24px; height: 1px;
+      background: rgba(201,150,58,0.6);
+    }
+    .gallery-hero-title {
+      font-family: 'Geraldine', 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 400; color: #f5edd8;
+      line-height: 1.05; letter-spacing: 0.02em;
+      margin-bottom: 1.2rem;
+      position: relative; z-index: 1;
+    }
+    .gallery-hero-sub {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      color: rgba(245,237,216,0.6);
+      max-width: 480px; margin: 0 auto 2rem; line-height: 1.75;
+      position: relative; z-index: 1;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Caveat', cursive; font-size: 1rem;
+      letter-spacing: 0.06em; color: rgba(245,237,216,0.6);
+      text-decoration: none; border-bottom: 1px solid rgba(245,237,216,0.2);
+      padding-bottom: 1px; transition: color 0.2s, border-color 0.2s;
+      position: relative; z-index: 1;
+    }
+    .back-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ══ MARQUEE ══ */
+    .marquee-strip {
+      background: var(--dark2);
+      border-top: 1px solid rgba(201,150,58,0.2);
+      border-bottom: 1px solid rgba(201,150,58,0.2);
+      padding: 0.8rem 0; overflow: hidden;
+    }
+    .marquee-track {
+      display: flex; white-space: nowrap;
+      animation: marqueeScroll 28s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 1.2rem;
+      padding: 0 2rem;
+      font-family: 'Caveat', cursive; font-size: 0.9rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(201,150,58,0.65); flex-shrink: 0;
+    }
+    .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(201,150,58,0.4); }
+    @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ══ FILTER BAR ══ */
+    .filter-bar {
+      padding: 2.5rem 3rem 0;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 0.5rem 0.6rem;
+    }
+    .filter-label {
+      font-family: 'Caveat', cursive; font-size: 0.8rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--ink-soft); margin-right: 0.4rem;
+      width: 100%; margin-bottom: 0.3rem;
+    }
+    .filter-btn {
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(58,46,36,0.18); border-radius: 999px;
+      font-family: 'Caveat', cursive; font-size: 0.88rem;
+      letter-spacing: 0.04em; color: var(--ink-soft);
+      background: none; cursor: pointer;
+      transition: all 0.2s ease; white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: var(--accent1); color: var(--accent1); background: rgba(181,96,58,0.05); }
+    .filter-btn.active {
+      background: var(--ink); color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* ══ COLLECTION HEADING ══ */
+    .collection-block {
+      max-width: 1200px; margin: 0 auto;
+      padding: 3.5rem 3rem 0;
+      overflow: hidden;
+    }
+
+    main { padding-top: 72px; }
+    .collection-label {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.8rem;
+    }
+    .collection-label-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600; font-style: italic;
+      color: var(--ink); white-space: nowrap;
+    }
+    .collection-label-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(58,46,36,0.15), transparent);
+    }
+    .collection-label-count {
+      font-family: 'Caveat', cursive; font-size: 0.78rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-soft); white-space: nowrap;
+    }
+
+    /* ══ CATALOGUE GRID ══ */
+    .catalogue-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      min-width: 0;
+    }
+
+    /* ══ CATALOGUE CARD ══ */
+    .cat-card {
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+      background: var(--paper);
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+      box-shadow: 0 2px 12px rgba(58,46,36,0.08);
+      min-width: 0;
+      overflow: hidden;
+    }
+    .cat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(58,46,36,0.16);
+    }
+    .cat-card[data-hidden="true"] { display: none; }
+
+    /* image area */
+    .cat-img {
+      position: relative; overflow: hidden;
+      aspect-ratio: 1 / 1;
+      background: #ede8de;
+    }
+    .cat-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+    }
+    .cat-card:hover .cat-img img { transform: scale(1.06); }
+
+    /* platform badge */
+    .cat-badge {
+      position: absolute; top: 10px; left: 10px;
+      font-family: 'Caveat', cursive; font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: rgba(26,18,8,0.75); color: rgba(245,237,216,0.9);
+      padding: 3px 9px; border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* hover overlay — view link */
+    .cat-overlay {
+      position: absolute; inset: 0;
+      background: rgba(26,18,8,0.5);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .cat-card:hover .cat-overlay { opacity: 1; }
+    .cat-overlay-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--gold); color: var(--dark);
+      border: none; border-radius: 999px;
+      padding: 0.55rem 1.4rem;
+      font-family: 'Caveat', cursive; font-size: 1rem;
+      letter-spacing: 0.06em; cursor: pointer;
+      transform: translateY(8px);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .cat-card:hover .cat-overlay-btn { transform: translateY(0); }
+
+    /* tape strip top of card */
+    .cat-tape {
+      position: absolute; top: -6px; left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 44px; height: 14px;
+      background: rgba(210,185,140,0.55);
+      background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.3) 0, rgba(255,255,255,0.3) 1px, transparent 1px, transparent 5px);
+      border-radius: 2px; z-index: 2;
+    }
+
+    /* info area */
+    .cat-info {
+      padding: 1rem 1.1rem 1.2rem;
+      display: flex; flex-direction: column; gap: 0.35rem;
+      flex: 1;
+    }
+    .cat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 600; font-style: italic;
+      color: var(--ink); line-height: 1.3;
+    }
+    .cat-platform {
+      font-family: 'Caveat', cursive; font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent1);
+    }
+    .cat-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
+    .cat-tag {
+      font-family: 'Caveat', cursive; font-size: 0.7rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink-soft);
+      border: 1px solid rgba(58,46,36,0.14);
+      padding: 1px 7px; border-radius: 999px;
+    }
+    .cat-link-row {
+      margin-top: auto; padding-top: 0.8rem;
+      border-top: 1px dashed rgba(58,46,36,0.12);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cat-link-text {
+      font-family: 'Caveat', cursive; font-size: 0.82rem;
+      letter-spacing: 0.06em; color: var(--accent1);
+    }
+    .cat-arrow {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1px solid rgba(58,46,36,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .cat-card:hover .cat-arrow {
+      background: var(--accent1); border-color: var(--accent1);
+    }
+    .cat-card:hover .cat-arrow svg { stroke: white; }
+
+    /* ══ EMPTY PLACEHOLDER ══ */
+    .cat-empty {
+      grid-column: 1 / -1;
+      padding: 1.5rem 0 0.5rem;
+      display: none;
+    }
+    .collection-block.is-empty .cat-empty { display: block; }
+    .cat-empty p {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1rem;
+      color: rgba(58,46,36,0.38);
+    }
+
+    /* ══ EMPTY STATE (global) ══ */
+    .empty-state {
+      grid-column: 1 / -1; text-align: center;
+      padding: 4rem 1rem; display: none;
+    }
+    .empty-state.visible { display: block; }
+    .empty-state p {
+      font-family: 'Caveat', cursive; font-size: 1.2rem;
+      color: var(--ink-soft); letter-spacing: 0.06em;
+    }
+
+    /* ══ REVEAL ANIM ══ */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.16s; }
+    .delay-3 { transition-delay: 0.24s; }
+    .delay-4 { transition-delay: 0.32s; }
+
+    /* ══ COMMISSION BAND ══ */
+    .commission-band {
+      background: var(--dark2); margin-top: 5rem;
+      padding: 5rem 3rem;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .commission-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(181,96,58,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .commission-ghost {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Geraldine', serif;
+      font-size: clamp(6rem, 14vw, 14rem); line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(245,237,216,0.05);
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+    .commission-label {
+      font-family: 'Caveat', cursive; font-size: 0.8rem;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(201,150,58,0.7); margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+    .commission-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 600; font-style: italic;
+      color: #f5edd8; margin-bottom: 1rem;
+      position: relative; z-index: 1;
+    }
+    .commission-body {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 1rem; color: rgba(245,237,216,0.58);
+      max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.8;
+      position: relative; z-index: 1;
+    }
+    .commission-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 1; }
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--gold); color: var(--dark);
+      border: none; border-radius: 999px;
+      padding: 0.75rem 2rem;
+      font-family: 'Caveat', cursive; font-size: 1.05rem;
+      letter-spacing: 0.06em; text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .btn-gold:hover { background: #e0aa45; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,150,58,0.35); }
+    .btn-outline-light {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid rgba(245,237,216,0.3); border-radius: 999px;
+      padding: 0.75rem 2rem;
+      font-family: 'Caveat', cursive; font-size: 1.05rem;
+      letter-spacing: 0.06em; text-decoration: none;
+      color: rgba(245,237,216,0.75);
+      transition: all 0.25s ease;
+    }
+    .btn-outline-light:hover { border-color: rgba(245,237,216,0.7); color: #fff; background: rgba(255,255,255,0.06); }
+
+    /* ══ FOOTER ══ */
+    #site-footer {
+      background: var(--dark);
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 3rem;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .footer-copy { font-family: 'Caveat', cursive; font-size: 1rem; color: rgba(245,237,216,0.5); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 768px) {
+      .topbar { padding: 0.7rem 1.2rem; }
+      .topbar-logo img { height: 40px; }
+      .topbar-nav { display: none; }
+      .gallery-hero { padding: 5rem 1.5rem 3.5rem; }
+      .gallery-hero-ghost { font-size: clamp(6rem, 22vw, 10rem); }
+      .filter-bar { padding: 2rem 1.2rem 0; }
+      .collection-block { padding: 2.5rem 1.2rem 0; }
+      .catalogue-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .cat-info { padding: 0.75rem 0.8rem 0.9rem; }
+      .cat-title { font-size: 0.88rem; }
+      .commission-band { padding: 3.5rem 1.5rem; }
+      #site-footer { padding: 0 1.25rem 1rem; min-height: auto; }
+      .footer-inner { flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem; padding: 1.2rem 0; }
+      .footer-copy { font-size: 0.75rem; text-align: center; }
+      .footer-copy:first-child { padding-bottom: 0.2rem; border-bottom: 1px solid rgba(245,237,216,0.1); }
+    }
+
+    @media (max-width: 480px) {
+      .catalogue-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+      .cat-tags { display: none; }
+      .collection-block { padding: 2rem 0.75rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ TOPBAR ══ -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="icons/logo top.png" alt="Aergul Creative Studio">
+  </div>
+  <nav class="topbar-nav">
+    <a href="index.html">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="gallery.html" class="active">Gallery</a>
+    <a href="index.html#shop">Shop</a>
+    <a href="index.html#links">Links</a>
+  </nav>
+  <a href="https://www.fiverr.com/alphar3x?public_mode=true" class="topbar-cta" target="_blank" rel="noopener noreferrer">Let's Connect →</a>
+</div>
+
+<!-- ══ HERO BANNER ══ -->
+<div class="gallery-hero">
+  <div class="gallery-hero-ghost" aria-hidden="true">Gallery</div>
+  <div class="gallery-hero-label">Design Catalogue</div>
+  <h1 class="gallery-hero-title">The Collection.</h1>
+  <p class="gallery-hero-sub">Browse the full catalogue of vector art, floral line art, stencil designs, and laser-cut files — each one crafted with precision.</p>
+  <a href="index.html" class="back-link">← Back to Studio</a>
+</div>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Vector Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Stencil Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Floral Line Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Laser Cut Files<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Boho Patterns<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Digital Illustrations<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom Commissions<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wall Decor Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Vector Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Stencil Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Floral Line Art<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Laser Cut Files<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Boho Patterns<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Digital Illustrations<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Custom Commissions<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Wall Decor Art<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══ FILTER BAR ══ -->
+<div class="filter-bar">
+  <span class="filter-label">Filter by category :</span>
+  <button class="filter-btn active" data-filter="all">All Works</button>
+  <button class="filter-btn" data-filter="laser-wall">Laser Cut Wall Stencil</button>
+  <button class="filter-btn" data-filter="laser-wood">Wood / Metal Laser Cut</button>
+  <button class="filter-btn" data-filter="laser-engrave">Laser Engraving</button>
+  <button class="filter-btn" data-filter="laser-invite">Laser Cut Invitation Cards</button>
+  <button class="filter-btn" data-filter="fabric-pattern">Fabric Pattern</button>
+  <button class="filter-btn" data-filter="fabric-boho">Fabric Boho Pattern</button>
+  <button class="filter-btn" data-filter="cake-stencil">Cake Stencil</button>
+  <button class="filter-btn" data-filter="cake-topper">Cake Toppers / Charms</button>
+  <button class="filter-btn" data-filter="vintage">Vintage Pattern / Art</button>
+  <button class="filter-btn" data-filter="floral">Floral</button>
+  <button class="filter-btn" data-filter="boho">Boho</button>
+  <button class="filter-btn" data-filter="line-art">Line Art</button>
+  <button class="filter-btn" data-filter="sticker">Stickers</button>
+  <button class="filter-btn" data-filter="icon">Icons</button>
+  <button class="filter-btn" data-filter="vector">Vector Extras</button>
+</div>
+
+<main>
+  <!-- gallery page stickers -->
+  <!-- hero top-right wide lily -->
+  <div class="deco-sticker dark" style="width:320px;top:80px;right:-20px;transform:rotate(6deg);position:fixed;z-index:0;">
+    <img src="background stickers/6.png" alt="">
+  </div>
+  <!-- hero bottom-left roses -->
+  <div class="deco-sticker dark" style="width:260px;bottom:40%;left:-20px;transform:rotate(-8deg);position:fixed;z-index:0;">
+    <img src="background stickers/3.png" alt="">
+  </div>
+
+<!-- helper macro for an empty placeholder card -->
+<!-- each collection-block has data-filter matching its filter slug -->
+
+<!-- 1 — Laser Cut Wall Stencil -->
+<div class="collection-block" id="col-laser-wall" data-filter="laser-wall">
+  <div class="collection-label reveal"><span class="collection-label-text">Laser Cut Wall Stencil Designs</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/floral-stencil-design-wall-2525972993" class="cat-card reveal delay-1" data-tags="laser-wall,floral" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/2.jpg" alt="Floral stencil design"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Floral Stencil Design</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Floral</span><span class="cat-tag">Wall Art</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <a href="https://www.shutterstock.com/image-vector/mandala-decor-vector-design-2448735543" class="cat-card reveal delay-2" data-tags="laser-wall,line-art" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/5.jpg" alt="Mandala decor vector"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Mandala Decor Vector Design</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Mandala</span><span class="cat-tag">Stencil</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <a href="https://www.shutterstock.com/g/Aergul+s/sets/328132996" class="cat-card reveal delay-3" data-tags="laser-wall,boho" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/11.jpg" alt="Geometric boho stencil"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Collection →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Geometric Boho Stencil Designs</div><div class="cat-platform">Shutterstock · Collection</div><div class="cat-tags"><span class="cat-tag">Geometric</span><span class="cat-tag">Boho</span></div><div class="cat-link-row"><span class="cat-link-text">View Collection</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 2 — Wood / Metal Laser Cut -->
+<div class="collection-block" id="col-laser-wood" data-filter="laser-wood">
+  <div class="collection-label reveal"><span class="collection-label-text">Wood &amp; Metal Laser Cut Designs</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/3d-curly-floral-pattern-wooden-art-2688837923" class="cat-card reveal delay-1" data-tags="laser-wood,floral" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/12.jpg" alt="Floral wooden art"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">3D Curly Floral Wooden Art</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Floral</span><span class="cat-tag">Wood Art</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 3 — Laser Engraving -->
+<div class="collection-block" id="col-laser-engrave" data-filter="laser-engrave">
+  <div class="collection-label reveal"><span class="collection-label-text">Laser Engraving Designs</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>Designs coming soon — check back or commission a custom piece.</p></div>
+  </div>
+</div>
+
+<!-- 4 — Laser Cut Invitation Cards -->
+<div class="collection-block" id="col-laser-invite" data-filter="laser-invite">
+  <div class="collection-label reveal"><span class="collection-label-text">Laser Cut Invitation Cards</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/floral-laser-cut-invitation-card-design-2754346561" class="cat-card reveal delay-1" data-tags="laser-invite,floral" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/7.jpg" alt="Floral laser cut invitation"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Floral Laser Cut Invitation Card</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Floral</span><span class="cat-tag">Invitation</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 5 — Fabric Pattern -->
+<div class="collection-block" id="col-fabric-pattern" data-filter="fabric-pattern">
+  <div class="collection-label reveal"><span class="collection-label-text">Fabric Pattern Designs</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/summer-beach-shells-doodles-pattern-design-2780466029" class="cat-card reveal delay-1" data-tags="fabric-pattern,boho" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/6.jpg" alt="Summer beach shells pattern"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Summer Beach Shells Pattern</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Pattern</span><span class="cat-tag">Summer</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 6 — Fabric Boho Pattern -->
+<div class="collection-block" id="col-fabric-boho" data-filter="fabric-boho">
+  <div class="collection-label reveal"><span class="collection-label-text">Fabric Boho Pattern</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/boho-pattern-features-geometric-repeat-that-2433853119" class="cat-card reveal delay-1" data-tags="fabric-boho,boho" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/8.jpg" alt="Boho geometric pattern"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Boho Geometric Repeat Pattern</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Boho</span><span class="cat-tag">Geometric</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <a href="https://www.shutterstock.com/g/Aergul+s/sets/328132919" class="cat-card reveal delay-2" data-tags="fabric-boho,floral,boho" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/10.jpg" alt="Boho floral seamless pattern"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Collection →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Boho Floral Seamless Pattern Set</div><div class="cat-platform">Shutterstock · Collection</div><div class="cat-tags"><span class="cat-tag">Boho</span><span class="cat-tag">Floral</span></div><div class="cat-link-row"><span class="cat-link-text">View Collection</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 7 — Cake Stencil -->
+<div class="collection-block" id="col-cake-stencil" data-filter="cake-stencil">
+  <div class="collection-label reveal"><span class="collection-label-text">Cake Stencil Design</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>Designs coming soon — check back or commission a custom piece.</p></div>
+  </div>
+</div>
+
+<!-- 8 — Cake Toppers / Charms -->
+<div class="collection-block" id="col-cake-topper" data-filter="cake-topper">
+  <div class="collection-label reveal"><span class="collection-label-text">Cake Toppers &amp; Charms</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>Designs coming soon — check back or commission a custom piece.</p></div>
+  </div>
+</div>
+
+<!-- 9 — Vintage Pattern / Art -->
+<div class="collection-block" id="col-vintage" data-filter="vintage">
+  <div class="collection-label reveal"><span class="collection-label-text">Vintage Pattern &amp; Art</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>Designs coming soon — check back or commission a custom piece.</p></div>
+  </div>
+</div>
+
+<!-- 10 — Floral Designs -->
+<div class="collection-block" id="col-floral" data-filter="floral">
+  <div class="collection-label reveal"><span class="collection-label-text">Floral Designs</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/round-leaves-branch-border-letters-2595958289" class="cat-card reveal delay-1" data-tags="floral,line-art" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/4.jpg" alt="Round leaves border"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Round Leaves Branch Border</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Botanical</span><span class="cat-tag">Floral</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <a href="https://www.shutterstock.com/g/Aergul+s/sets/328132948" class="cat-card reveal delay-2" data-tags="floral,line-art" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/3.jpg" alt="Floral line art collection"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Collection →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Floral Line Art Collection</div><div class="cat-platform">Shutterstock · Collection</div><div class="cat-tags"><span class="cat-tag">Line Art</span><span class="cat-tag">Floral</span></div><div class="cat-link-row"><span class="cat-link-text">View Collection</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 11 — Boho Designs -->
+<div class="collection-block" id="col-boho" data-filter="boho">
+  <div class="collection-label reveal"><span class="collection-label-text">Boho Designs</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 12 — Line Art -->
+<div class="collection-block" id="col-line-art" data-filter="line-art">
+  <div class="collection-label reveal"><span class="collection-label-text">Line Art</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://stock.adobe.com/stock-photo/id/779121263" class="cat-card reveal delay-1" data-tags="line-art,sticker" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/9.jpg" alt="Butterfly line art"><span class="cat-badge">Adobe Stock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Butterfly Line Art Vector</div><div class="cat-platform">Adobe Stock · Illustration</div><div class="cat-tags"><span class="cat-tag">Butterfly</span><span class="cat-tag">Line Art</span></div><div class="cat-link-row"><span class="cat-link-text">View on Adobe Stock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 13 — Stickers -->
+<div class="collection-block" id="col-sticker" data-filter="sticker">
+  <div class="collection-label reveal"><span class="collection-label-text">Stickers</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <a href="https://www.shutterstock.com/image-vector/ballerina-woman-vector-design-sticker-metal-2441202181" class="cat-card reveal delay-1" data-tags="sticker,line-art" target="_blank" rel="noopener noreferrer">
+      <div class="cat-img"><img src="slide and gallary/1.jpg" alt="Ballerina vector sticker"><span class="cat-badge">Shutterstock</span><div class="cat-overlay"><div class="cat-overlay-btn">View Design →</div></div></div>
+      <div class="cat-info"><div class="cat-title">Ballerina Woman Vector Design</div><div class="cat-platform">Shutterstock · Vector</div><div class="cat-tags"><span class="cat-tag">Ballerina</span><span class="cat-tag">Sticker</span></div><div class="cat-link-row"><span class="cat-link-text">View on Shutterstock</span><div class="cat-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(58,46,36,0.6)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    </a>
+    <div class="cat-empty"><p>More designs coming soon —</p></div>
+  </div>
+</div>
+
+<!-- 14 — Icons -->
+<div class="collection-block" id="col-icon" data-filter="icon">
+  <div class="collection-label reveal"><span class="collection-label-text">Icons</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>Designs coming soon — check back or commission a custom piece.</p></div>
+  </div>
+</div>
+
+<!-- 15 — Vector Extras -->
+<div class="collection-block" id="col-vector" data-filter="vector">
+  <div class="collection-label reveal"><span class="collection-label-text">Vector Extras</span><span class="collection-label-count" data-count></span><div class="collection-label-line"></div></div>
+  <div class="catalogue-grid">
+    <div class="cat-empty"><p>Designs coming soon — check back or commission a custom piece.</p></div>
+  </div>
+</div>
+
+<div id="emptyState" class="empty-state"><p>No designs found for this filter.</p></div>
+
+  <!-- ══════════════════════════════
+
+<!-- ══ COMMISSION BAND ══ -->
+<div class="commission-band">
+  <div class="commission-ghost" aria-hidden="true">Custom</div>
+  <div class="commission-label">Work With Me</div>
+  <h2 class="commission-title">Have something in mind?</h2>
+  <p class="commission-body">I take on custom commissions for floral illustrations, stencil designs, engraving artwork, and personalized creative projects — built exactly to your brief.</p>
+  <div class="commission-actions">
+    <a href="https://www.fiverr.com/alphar3x?public_mode=true" class="btn-gold" target="_blank" rel="noopener noreferrer">Commission on Fiverr →</a>
+    <a href="index.html#about" class="btn-outline-light">Learn More About Me</a>
+  </div>
+</div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer id="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; <span id="year"></span> Aergul Studio — all rights reserved</span>
+    <span class="footer-copy">crafted with precision &amp; soft aesthetics ♡</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ── Topbar: transparent → solid on scroll ──
+  (function() {
+    const topbar = document.querySelector('.topbar');
+    function update() { topbar.classList.toggle('solid', window.scrollY > 60); }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+
+  // ── Reveal on scroll ──
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  // ── Filter logic ──
+  (function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const collections = document.querySelectorAll('.collection-block');
+
+    function updateCounts() {
+      collections.forEach(col => {
+        const allCards = col.querySelectorAll('.cat-card');
+        const visibleCards = Array.from(allCards).filter(c => c.style.display !== 'none');
+        const countEl = col.querySelector('[data-count]');
+        const n = visibleCards.length;
+        if (countEl) countEl.textContent = n + (n === 1 ? ' piece' : ' pieces');
+        // show/hide empty placeholder
+        col.classList.toggle('is-empty', n === 0);
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        collections.forEach(col => {
+          const colFilter = col.getAttribute('data-filter');
+          // when a specific filter is active, only show matching collection blocks
+          if (filter !== 'all' && colFilter !== filter) {
+            col.style.display = 'none';
+          } else {
+            col.style.display = '';
+            // show/hide cards within this block
+            col.querySelectorAll('.cat-card').forEach(card => {
+              const tags = (card.getAttribute('data-tags') || '').split(',');
+              card.style.display = (filter === 'all' || tags.includes(filter)) ? '' : 'none';
+            });
+          }
+        });
+
+        updateCounts();
+      });
+    });
+
+    // initialise on load
+    updateCounts();
+  })();
+</script>
+<!-- ══ SCROLL PROGRESS BAR ══ -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ══ PAGE FADE OVERLAY ══ -->
+<div class="page-fade" id="pageFade"></div>
+
+<!-- ══ BOTANICAL SPRIGS ══ -->
+<div class="botanical-sprig" id="sprig1" style="left:-40px;top:15vh;">
+  <svg width="160" height="260" viewBox="0 0 160 260" fill="none" stroke="rgba(181,96,58,0.7)" stroke-width="1.2" stroke-linecap="round">
+    <path d="M80 250 C80 250 78 205 75 178 C72 152 62 133 54 114 C46 95 38 76 52 52 C62 36 76 28 80 10"/>
+    <path d="M75 178 C65 164 47 160 34 166"/><path d="M71 145 C60 130 44 127 32 134"/>
+    <path d="M69 114 C61 98 45 93 34 100"/><path d="M75 178 C85 166 104 163 116 170"/>
+    <path d="M72 147 C82 133 100 131 112 138"/><path d="M70 116 C80 103 96 100 107 108"/>
+  </svg>
+</div>
+<div class="botanical-sprig" id="sprig2" style="right:-30px;top:35vh;">
+  <svg width="150" height="220" viewBox="0 0 150 220" fill="none" stroke="rgba(122,158,126,0.7)" stroke-width="1.1" stroke-linecap="round">
+    <path d="M75 210 C75 210 77 168 79 145 C81 122 90 104 97 86 C104 68 110 50 98 32 C90 18 77 12 75 0"/>
+    <path d="M79 145 C90 134 108 134 118 142"/><path d="M81 116 C92 105 110 105 120 113"/>
+    <path d="M79 145 C68 135 50 133 40 141"/><path d="M81 118 C70 107 53 107 44 115"/>
+  </svg>
+</div>
+
+<!-- ══ CURSOR PETAL CONTAINER ══ -->
+<div id="petalContainer"></div>
+
+<script>
+// ── Scroll progress bar ──
+(function() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (window.scrollY / total * 100) + '%';
+  }, { passive: true });
+})();
+
+// ── Page fade transition ──
+(function() {
+  const fade = document.getElementById('pageFade');
+  if (!fade) return;
+  fade.classList.add('visible');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fade.style.transition = 'opacity 0.5s ease';
+      fade.classList.remove('visible');
+    });
+  });
+  document.querySelectorAll('a[href*="index.html"]').forEach(link => {
+    if (link.target === '_blank') return;
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const dest = this.href;
+      fade.style.transition = 'opacity 0.4s ease';
+      fade.classList.add('visible');
+      setTimeout(() => { window.location.href = dest; }, 420);
+    });
+  });
+})();
+
+// ── Botanical parallax ──
+(function() {
+  const s1 = document.getElementById('sprig1');
+  const s2 = document.getElementById('sprig2');
+  if (!s1 || !s2) return;
+  let tick = false;
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      s1.style.transform = `translateY(${y * 0.1}px) rotate(-3deg)`;
+      s2.style.transform = `translateY(${y * -0.07}px) rotate(4deg)`;
+      tick = false;
+    });
+    tick = true;
+  }, { passive: true });
+})();
+
+// ── Line-draw hover on catalogue cards ──
+(function() {
+  const path = `M 16 4 L 4 4 Q 2 4 2 6 L 2 18
+                M 2 82 L 2 94 Q 2 96 4 96 L 16 96
+                M 84 96 L 96 96 Q 98 96 98 94 L 98 82
+                M 98 18 L 98 6 Q 98 4 96 4 L 84 4
+                M 30 4 C 50 0 70 0 82 4
+                M 2 34 C 0 50 0 66 2 78
+                M 98 34 C 100 50 100 66 98 78
+                M 30 96 C 50 100 70 100 82 96`;
+  document.querySelectorAll('.cat-card').forEach(card => {
+    const overlay = document.createElement('div');
+    overlay.className = 'draw-overlay';
+    overlay.innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="none"><path class="draw-path" d="${path}"/></svg>`;
+    const img = card.querySelector('.cat-img');
+    if (img) img.appendChild(overlay);
+  });
+})();
+
+// ── Cursor petal trail ──
+(function() {
+  if (window.innerWidth <= 768) return;
+  const container = document.getElementById('petalContainer');
+  const shapes = [
+    `<path d="M7 1 C9 4 13 5 13 7 C13 10 10 13 7 13 C4 13 1 10 1 7 C1 5 5 4 7 1Z" fill="rgba(242,210,220,0.85)" stroke="rgba(181,96,58,0.3)" stroke-width="0.5"/>`,
+    `<path d="M7 1 L8.5 6 L14 6 L9.5 9 L11 14 L7 11 L3 14 L4.5 9 L0 6 L5.5 6 Z" fill="rgba(201,150,58,0.6)"/>`,
+    `<path d="M7 2 C7 2 2 5 2 9 C2 12 4.5 14 7 14 C9.5 14 12 12 12 9 C12 5 7 2 7 2Z" fill="none" stroke="rgba(122,158,126,0.7)" stroke-width="1"/>`
+  ];
+  let lastTime = 0;
+  document.addEventListener('mousemove', e => {
+    const now = Date.now();
+    if (now - lastTime < 60) return;
+    lastTime = now;
+    const p = document.createElement('div');
+    p.className = 'cursor-petal';
+    p.style.left = e.clientX + (Math.random() * 16 - 8) + 'px';
+    p.style.top  = e.clientY + (Math.random() * 16 - 8) + 'px';
+    p.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14">${shapes[Math.floor(Math.random() * shapes.length)]}</svg>`;
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 900);
+  });
+})();
+</script>
+</body>
+</html>
